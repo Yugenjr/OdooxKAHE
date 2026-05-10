@@ -1,7 +1,10 @@
 
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 export default function Cta() {
+  const navigate = useNavigate();
+
   return (
     <section className="section-spacing mt-40 md:mt-32 relative overflow-hidden bg-[#050505] font-outfit border-t border-white/5">
       {/* Background Cinematic Visuals */}
@@ -41,7 +44,7 @@ export default function Cta() {
           </p>
           
           <button 
-            onClick={() => window.location.href = 'http://localhost:5173/login'}
+            onClick={() => navigate('/login')}
             className="px-10 py-5 bg-white text-black text-lg font-semibold rounded-full hover:bg-zinc-200 hover:scale-105 transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.3)]"
           >
             Launch Traveloop

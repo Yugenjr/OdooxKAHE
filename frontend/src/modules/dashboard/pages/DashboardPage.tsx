@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Bell, Settings, MapPin, Clock, ArrowRight, Sparkles, TrendingUp, DollarSign, Calendar } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import Navbar from '../components/Navbar'

@@ -8,7 +8,7 @@ import { DashboardPage } from '@/modules/dashboard/pages/DashboardPage'
 import { InspirationPage } from '@/modules/dashboard/pages/InspirationPage'
 import { MyTripsPage } from '@/modules/trips/pages/MyTripsPage'
 import { CreateTripPage } from '@/modules/trips/pages/CreateTripPage'
-import LandingPage from '@/landing/LandingPage'
+import LandingPage from '@/modules/landing/LandingPage'
 
 // Main app routes
 const appRoutes: RouteObject[] = [

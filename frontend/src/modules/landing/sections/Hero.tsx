@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
 import { Plane, Map, Compass, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
+  const navigate = useNavigate();
+
   return (
     <section
       className="
@@ -98,7 +101,7 @@ export default function Hero() {
             className="flex flex-col sm:flex-row sm:items-center items-stretch gap-4 pt-2 w-full sm:w-auto"
           >
             <button
-              onClick={() => (window.location.href = 'http://localhost:5173/login')}
+              onClick={() => navigate('/login')}
               className="
                 w-full
                 sm:w-auto
