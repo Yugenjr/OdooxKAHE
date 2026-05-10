@@ -2,28 +2,37 @@
 
 Location: `backend/`
 
-Overview:
-- Likely contains an Express/Node API (see [backend/package.json](backend/package.json)).
-- Responsibilities: authenticate users, serve trip/itinerary endpoints, proxy external activity APIs, persist data.
+Purpose
 
-Request flow:
+- Provide API endpoints for authentication, trip management, and integrations with external activity providers.
+- Responsible for data validation, persistence, and business rules.
+
+Core services
+
+- Auth Service — user sessions, token management
+- Trip Service — CRUD for trips and itineraries
+- Integration Layer — adapters to third-party activity APIs
+
+Request/response flow
+
 ```mermaid
 sequenceDiagram
   participant F as Frontend
   participant B as Backend
   participant D as Database/External
 
-  F->>B: POST /api/trips
-  B->>D: write trip
-  D-->>B: ack
-  B-->>F: 201 Created
+  F->>B: POST /api/trips {trip payload}
+  B->>D: store trip / call external APIs
+  D-->>B: data / ack
+  B-->>F: 201 Created (trip id)
 ```
 
-Run (example):
-```bash
-cd backend
-npm install
-npm run dev
-```
+Helpful notes
 
-Check [backend/package.json](backend/package.json) for actual scripts and env requirements.
+- Inspect `backend/package.json` for available scripts and environment variables.
+- Look for `.env` or config files for database connection and API keys.
+
+Data & contracts
+
+- Shared types live in `frontend/src/shared/types` — use these as the source of truth for API payloads.
+

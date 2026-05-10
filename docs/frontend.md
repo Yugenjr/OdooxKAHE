@@ -1,26 +1,27 @@
 # Frontend
 
-Location: `frontend/` — Vite + React + TypeScript app.
+Location: `frontend/` — Vite + React + TypeScript
 
-Main entry: `frontend/src/main.tsx` (check `frontend/package.json` scripts).
+Structure & pages
 
-Core pages (examples exist in `frontend/src/modules`):
-- `modules/landing` — Landing page and marketing sections
+- `modules/landing` — marketing and hero sections
 - `modules/auth` — `LoginPage`, `SignupPage`
-- `modules/trips` — `CreateTripPage`, `MyTripsPage`
+- `modules/trips` — `CreateTripPage`, `MyTripsPage`, trip builder
+- `shared` — utilities, services, hooks used across pages
 
-User interaction flow (search → add → save):
+Routing & UI flow
+
 ```mermaid
 flowchart LR
-  Search[Search Page] --> Results[Results List]
+  Home[Landing] --> Search[Search Activities]
+  Search --> Results[Results List]
   Results --> Detail[Activity Detail]
   Detail --> Add[Add To Trip]
-  Add --> Itinerary[Itinerary Page]
+  Add --> Builder[Trip Builder]
+  Builder --> Save[Save & Share]
 ```
 
-Run (example):
-```bash
-cd frontend
-npm install
-npm run dev
-```
+UI Design notes
+
+- Components attempt to be small and composable (cards, lists, modals).
+- `QueryProvider` centralizes data fetching and caching logic.

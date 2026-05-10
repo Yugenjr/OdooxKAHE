@@ -1,27 +1,27 @@
 # Overview
 
-This repository implements OdooxKAHE — a travel planning web app built with a React + TypeScript frontend and a Node backend.
+OdooxKAHE is a travel-planning web app enabling users to search activities, assemble multi-day itineraries, and share trips with friends.
 
-Key components:
-- Frontend: [frontend](frontend) (Vite + React + TypeScript)
-- Backend: [backend](backend) (Node / Express)
-- Shared utilities: `src/shared` (types, services, utils)
+Key components
 
-Project layout (top-level):
+- Frontend: `frontend/` — Vite + React + TypeScript
+- Backend: `backend/` — Node (Express) API
+- Shared: `frontend/src/shared` — common types, hooks, services
 
-```text
-frontend/   # UI app (Vite)
-backend/    # API server
-README.md   # This file
-docs/       # Project docs (you are here)
-```
+Top-level layout
 
-High-level flow:
+- `frontend/` — UI app and components
+- `backend/` — API server and data-layer adapters
+- `docs/` — human-facing project documentation (this folder)
+
+Architecture overview
+
 ```mermaid
-flowchart TD
-  UI[Frontend] --> API[Backend API]
-  API --> DB[(Database/External APIs)]
-  UI --> Assets[Public/Assets]
+flowchart TB
+  User[User Interface] --> Frontend[Frontend App]
+  Frontend --> API[Backend API]
+  API --> DB[(Database / External APIs)]
+  Frontend --> Assets[Static Assets]
 ```
 
-See the detailed docs for backend, frontend, and development instructions.
+This repository focuses on clear separation between UI and backend concerns. See the Backend and Frontend docs for deeper diagrams and responsibilities.

@@ -1,33 +1,32 @@
 # Development & Run
 
-This file explains how to set up and run the project locally.
+This section explains how contributors typically set up the project and the common development workflow.
 
-Prerequisites:
-- Node.js 18+ (or project-specific)
+Prerequisites
+
+- Node.js (recommend LTS 18+)
 - npm or yarn
 
-Steps:
-```bash
-# From repo root
-cd frontend
-npm install
-npm run dev
+Local setup overview
 
-# In a separate terminal
-cd ../backend
-npm install
-npm run dev
-```
+- Install frontend dependencies and run the Vite dev server to work on UI.
+- Install backend dependencies and run the API server to handle requests.
+- Keep both servers running in separate terminals for full end-to-end iteration.
 
-Dev workflow (diagram):
+Developer workflow
+
 ```mermaid
 flowchart TD
-  Code[Edit code] --> Install[Install dependencies]
-  Install --> DevRun[Run dev servers]
-  DevRun --> Test[Run tests / lint]
-  Test --> PR[Open PR]
+  Edit[Edit code] --> Install[Install deps]
+  Install --> Dev[Run dev servers]
+  Dev --> Test[Test & Lint]
+  Test --> PR[Open Pull Request]
 ```
 
-Notes:
-- Check `frontend/package.json` and `backend/package.json` for accurate scripts.
-- If ports conflict, update the dev server port in `vite.config.ts` or backend config.
+Helpful tips
+
+- Inspect `frontend/package.json` and `backend/package.json` for available npm scripts.
+- Use the `QueryProvider` to simulate API responses for UI-only work.
+- If ports conflict, adjust the Vite dev server port or backend port in the respective config files.
+
+If you want, I can add runnable example commands in a separate `docs/run-commands.md` file so these instructions stay descriptive here while keeping copy-pasteable commands in one place.

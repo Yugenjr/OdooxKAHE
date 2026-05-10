@@ -1,46 +1,67 @@
 # OdooxKAHE
 
-A concise project documentation with flowcharts and links to detailed docs.
+Welcome to OdooxKAHE — a modern travel planning web application focused on discovery, trip creation, and sharable itineraries.
 
-## Quick Links
+Quick links
+
 - [Overview](docs/overview.md)
 - [Backend](docs/backend.md)
 - [Frontend](docs/frontend.md)
 - [Development & Run](docs/development.md)
 
-## Architecture Flow
+Purpose
+
+ - Help users discover activities and build day-by-day itineraries.
+ - Provide a responsive, fast UI (Vite + React + TypeScript) with a lightweight Node backend.
+
+High-level architecture
+
 ```mermaid
 flowchart TD
-  A[User] -->|browser| B(Frontend - Vite + React + TypeScript)
-  B -->|API calls| C(Backend - Node/Express)
-  C --> D[(Database / External APIs)]
-  B --> E[Static Assets]
-  style B fill:#f9f,stroke:#333,stroke-width:1px
+  subgraph Frontend
+    F1[Landing / Search]
+    F2[Trip Builder]
+    F3[Profile / Saved Trips]
+  end
+
+  subgraph Backend
+    B1[API Layer]
+    B2[Auth Service]
+    B3[Trip Service]
+  end
+
+  User --> F1
+  F1 --> F2
+  F2 -->|REST / GraphQL| B1
+  B1 --> B2
+  B1 --> B3
+  B3 --> DB[(Database / External APIs)]
 ```
 
-## Feature Flow — Trips
+User journey — create a trip
+
 ```mermaid
 flowchart LR
-  Start[Start] --> Search[Search Activities/Cities]
-  Search --> Select[Select Activity]
-  Select --> Add[Add To Trip]
-  Add --> Itinerary[Itinerary Page]
-  Itinerary --> Save[Save Trip]
-  Save --> End[End]
+  A[User] --> B[Search Activities]
+  B --> C[Select & Add to Trip]
+  C --> D[Organize Day by Day]
+  D --> E[Save & Share]
 ```
 
-## Dev Workflow
-```mermaid
-flowchart TD
-  Code[Code] --> Build[Build (Vite / Node)]
-  Build --> Test[Run Tests]
-  Test --> Lint[ESLint / Typecheck]
-  Lint --> Deploy[Deploy]
-```
+Where to start
 
----
+- Read the Project Overview for folder maps and feature lists.
+- Open the `frontend` folder to run and explore UI components.
+- Open the `backend` folder to inspect API endpoints and server logic.
 
-See the linked docs for detailed explanations, folder maps, and developer setup steps.
+Contributing
+
+- Create a branch for your change and open a PR against `master`.
+- Keep PRs focused and add screenshots or short video for UI changes.
+
+Want more detail?
+
+Open the linked docs for component-level diagrams, API overviews, and development steps.
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -56,61 +77,6 @@ The React Compiler is not enabled on this template because of its impact on dev 
 
 ## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+If you want stricter, type-aware linting for TypeScript files, enable the type-checked ESLint configs in your `frontend` ESLint configuration (for example, `recommendedTypeChecked` or `strictTypeChecked`). See `frontend/eslint.config.js` for a ready-made example and recommended parser options.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+You can enable React-specific linting by installing `eslint-plugin-react-x` and `eslint-plugin-react-dom`, then enabling their recommended configs in your `frontend` ESLint configuration. See `frontend/eslint.config.js` for a project example and for type-aware linting recommendations.
