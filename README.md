@@ -9,10 +9,10 @@ Comprehensive documentation organized into 5 sections:
 | File | Purpose |
 |------|---------|
 | **[README.md](README.md)** | Project overview, features, quick start |
-| **[architecture.md](docs/architecture.md)** | System design, tech stack, high-level architecture |
-| **[frontend.md](docs/frontend.md)** | React structure, pages, components, flows |
-| **[backend.md](docs/backend.md)** | Services, controllers, database schema, auth *template* |
-| **[API.md](docs/API.md)** | REST endpoints, requests/responses, auth *template* |
+| **[architecture.md](architecture.md)** | System design, tech stack, high-level architecture |
+| **[frontend.md](frontend.md)** | React structure, pages, components, flows |
+| **[backend.md](backend.md)** | Services, controllers, database schema, auth *template* |
+| **[API.md](API.md)** | REST endpoints, requests/responses, auth *template* |
 
 **New to the project?** Start with:
 1. Read [architecture.md](docs/architecture.md) for high-level overview
