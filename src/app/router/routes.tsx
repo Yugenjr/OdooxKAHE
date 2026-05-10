@@ -5,6 +5,7 @@ import { MainLayout } from '@/app/layouts/MainLayout'
 import { LoginPage } from '@/modules/auth/pages/LoginPage'
 import { SignupPage } from '@/modules/auth/pages/SignupPage'
 import { DashboardPage } from '@/modules/dashboard/pages/DashboardPage'
+import { InspirationPage } from '@/modules/dashboard/pages/InspirationPage'
 import { MyTripsPage } from '@/modules/trips/pages/MyTripsPage'
 import { CreateTripPage } from '@/modules/trips/pages/CreateTripPage'
 import LandingPage from '@/landing/LandingPage'
@@ -14,6 +15,10 @@ const appRoutes: RouteObject[] = [
   {
     path: 'dashboard',
     element: <DashboardPage />,
+  },
+  {
+    path: 'inspiration',
+    element: <InspirationPage />,
   },
   {
     path: 'trips',

@@ -251,15 +251,15 @@ export const DashboardPage: React.FC = () => {
 
               {/* Center Navigation */}
               <div className="hidden md:flex items-center space-x-8">
-                <a href="#" className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
+                <a href="/app/dashboard" onClick={(e) => { e.preventDefault(); navigate('/app/dashboard'); }} className="text-white hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group relative">
                   <span>Explore</span>
-                  <span className="w-1 h-1 bg-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <span className="w-1 h-1 bg-indigo-500 rounded-full absolute -bottom-2 left-1/2 -translate-x-1/2" />
                 </a>
-                <a href="#" className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
+                <a href="/app/trips" onClick={(e) => { e.preventDefault(); navigate('/app/trips'); }} className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
                   <span>My Trips</span>
                   <span className="w-1 h-1 bg-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
-                <a href="#" className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
+                <a href="/app/inspiration" onClick={(e) => { e.preventDefault(); navigate('/app/inspiration'); }} className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
                   <span>Inspiration</span>
                   <span className="w-1 h-1 bg-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
