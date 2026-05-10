@@ -5,7 +5,7 @@ import { useAuthStore } from '@/store/authStore'
 
 const MOCK_TRIPS = [
   { id: 1, title: 'Summer in Greece', destination: 'Santorini, Greece', image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=800&auto=format&fit=crop', status: 'upcoming' },
-  { id: 2, title: 'Nordic Explorer', destination: 'Scandinavia', image: 'https://images.unsplash.com/photo-1531366936336-62fc67463b44?q=80&w=800&auto=format&fit=crop', status: 'upcoming' },
+  { id: 2, title: 'Nordic Explorer', destination: 'Scandinavia', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop', status: 'upcoming' },
   { id: 3, title: 'Tokyo to Kyoto', destination: 'Japan', image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop', status: 'completed' },
   { id: 4, title: 'Paris Getaway', destination: 'France', image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800&auto=format&fit=crop', status: 'completed' },
   { id: 5, title: 'Bali Retreat', destination: 'Indonesia', image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=800&auto=format&fit=crop', status: 'completed' },

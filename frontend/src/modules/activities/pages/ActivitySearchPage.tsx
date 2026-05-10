@@ -5,11 +5,11 @@ interface Activity { id: number; name: string; category: string; city: string; d
 
 const ACTIVITIES: Activity[] = [
   { id: 1, name: 'Eiffel Tower Visit', category: 'Sightseeing', city: 'Paris', duration: 2, cost: 25, image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=800&auto=format&fit=crop', rating: 4.8, description: 'Visit the iconic Eiffel Tower with skip-the-line tickets.' },
-  { id: 2, name: 'Street Food Tour', category: 'Food', city: 'Bangkok', duration: 3, cost: 15, image: 'https://images.unsplash.com/photo-1508009603733-e38d8ea67f3a?q=80&w=800&auto=format&fit=crop', rating: 4.9, description: 'Explore the vibrant street food scene with a local guide.' },
-  { id: 3, name: 'Sagrada Familia Tour', category: 'Architecture', city: 'Barcelona', duration: 2.5, cost: 30, image: 'https://images.unsplash.com/photo-1583420694155-2a76f05a6d5d?q=80&w=800&auto=format&fit=crop', rating: 4.7, description: "Guided tour of Gaudí's masterpiece Sagrada Familia." },
-  { id: 4, name: 'Broadway Show', category: 'Entertainment', city: 'New York', duration: 3, cost: 120, image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=800&auto=format&fit=crop', rating: 4.8, description: 'Experience a world-class Broadway musical production.' },
-  { id: 5, name: 'Desert Safari', category: 'Adventure', city: 'Dubai', duration: 4, cost: 60, image: 'https://images.unsplash.com/photo-1512453328517-10c14091dc57?q=80&w=800&auto=format&fit=crop', rating: 4.6, description: 'Dune bashing, camel rides, and desert camping.' },
-  { id: 6, name: 'Sumo Wrestling', category: 'Cultural', city: 'Tokyo', duration: 3, cost: 50, image: 'https://images.unsplash.com/photo-1540959375944-7049f642e9d4?q=80&w=800&auto=format&fit=crop', rating: 4.7, description: 'Watch traditional sumo wrestling tournaments.' },
+  { id: 2, name: 'Street Food Tour', category: 'Food', city: 'Bangkok', duration: 3, cost: 15, image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop', rating: 4.9, description: 'Explore the vibrant street food scene with a local guide.' },
+  { id: 3, name: 'Sagrada Familia Tour', category: 'Architecture', city: 'Barcelona', duration: 2.5, cost: 30, image: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?q=80&w=800&auto=format&fit=crop', rating: 4.7, description: "Guided tour of Gaudí's masterpiece Sagrada Familia." },
+  { id: 4, name: 'Broadway Show', category: 'Entertainment', city: 'New York', duration: 3, cost: 120, image: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?q=80&w=800&auto=format&fit=crop', rating: 4.8, description: 'Experience a world-class Broadway musical production.' },
+  { id: 5, name: 'Desert Safari', category: 'Adventure', city: 'Dubai', duration: 4, cost: 60, image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=800&auto=format&fit=crop', rating: 4.6, description: 'Dune bashing, camel rides, and desert camping.' },
+  { id: 6, name: 'Sumo Wrestling', category: 'Cultural', city: 'Tokyo', duration: 3, cost: 50, image: 'https://images.unsplash.com/photo-1513407030348-c983a97b98d8?q=80&w=800&auto=format&fit=crop', rating: 4.7, description: 'Watch traditional sumo wrestling tournaments.' },
 ]
 
 const CATEGORIES = ['All', 'Sightseeing', 'Food', 'Adventure', 'Cultural', 'Entertainment', 'Architecture']
@@ -79,7 +79,7 @@ const ActivitySearchPage: React.FC = () => {
                 <p className="text-white/40 text-xs mb-3 flex items-center gap-1"><MapPin className="w-3 h-3" />{a.city} · {a.category}</p>
                 <div className="flex justify-between text-xs text-white/50 mb-3">
                   <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-[#e8614a]/60" />{a.duration}h</span>
-                  <span className="flex items-center gap-1"><DollarSign className="w-3 h-3 text-[#e8614a]/60" />${a.cost}</span>
+                  <span className="flex items-center gap-1"><DollarSign className="w-3 h-3 text-[#e8614a]/60" />₹{a.cost}</span>
                 </div>
                 <p className="text-white/40 text-xs mb-4 leading-relaxed">{a.description}</p>
                 <button className="w-full py-2 bg-[#e8614a]/15 hover:bg-[#e8614a]/30 border border-[#e8614a]/25 text-[#e8614a] text-sm font-semibold rounded-lg transition">

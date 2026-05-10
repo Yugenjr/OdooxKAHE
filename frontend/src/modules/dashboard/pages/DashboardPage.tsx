@@ -7,14 +7,14 @@ const REGIONAL_SELECTIONS = [
   { id: 1, name: 'Adventure', image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=600&auto=format&fit=crop' },
   { id: 2, name: 'Honeymoon', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop' },
   { id: 3, name: 'Family', image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=600&auto=format&fit=crop' },
-  { id: 4, name: 'Shopping', image: 'https://images.unsplash.com/photo-1520975912998-0b4a3c9a0c9f?q=80&w=600&auto=format&fit=crop' },
+  { id: 4, name: 'Shopping', image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=600&auto=format&fit=crop' },
   { id: 5, name: 'Nightlife', image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=600&auto=format&fit=crop' },
 ]
 
 const PREVIOUS_TRIPS = [
   { id: 1, title: 'Tokyo to Kyoto Adventure', destination: 'Japan', date: 'Mar 15 – Mar 25, 2025', spent: 2180, budget: 2500, rating: 4.9, image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=600&auto=format&fit=crop' },
   { id: 2, title: 'European Grand Tour', destination: 'Europe', date: 'Apr 1 – Apr 20, 2025', spent: 4200, budget: 4500, rating: 4.8, image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=600&auto=format&fit=crop' },
-  { id: 3, title: 'Southeast Asia Explorer', destination: 'Southeast Asia', date: 'May 5 – May 18, 2025', spent: 2650, budget: 2800, rating: 5.0, image: 'https://images.unsplash.com/photo-1537225228614-b4fad35b6789?q=80&w=600&auto=format&fit=crop' },
+  { id: 3, title: 'Southeast Asia Explorer', destination: 'Southeast Asia', date: 'May 5 – May 18, 2025', spent: 2650, budget: 2800, rating: 5.0, image: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=600&auto=format&fit=crop' },
 ]
 
 export const DashboardPage: React.FC = () => {
@@ -116,7 +116,7 @@ export const DashboardPage: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-1.5">
                       <DollarSign className="w-3 h-3 text-[#e8614a]/60" />
-                      ${trip.spent} / ${trip.budget}
+                      ₹{trip.spent} / ₹{trip.budget}
                     </div>
                   </div>
                   <button className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-[#e8614a]/10 hover:bg-[#e8614a]/25 border border-[#e8614a]/25 rounded-lg text-xs font-semibold text-[#e8614a] transition">

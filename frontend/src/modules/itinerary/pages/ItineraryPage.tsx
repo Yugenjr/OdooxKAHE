@@ -18,27 +18,27 @@ const DEFAULT_DAYS: Day[] = [
     id: 1,
     label: 'Day 1',
     rows: [
-      { id: 1, activity: 'Arrive at Rome Fiumicino Airport, check into hotel', expense: '$0' },
-      { id: 2, activity: 'Lunch at Trastevere neighbourhood', expense: '$35' },
-      { id: 3, activity: 'Evening walk — Colosseum & Roman Forum exterior', expense: '$0' },
+      { id: 1, activity: 'Arrive at Rome Fiumicino Airport, check into hotel', expense: '₹0' },
+      { id: 2, activity: 'Lunch at Trastevere neighbourhood', expense: '₹2,900' },
+      { id: 3, activity: 'Evening walk — Colosseum & Roman Forum exterior', expense: '₹0' },
     ],
   },
   {
     id: 2,
     label: 'Day 2',
     rows: [
-      { id: 1, activity: 'Vatican Museums & Sistine Chapel guided tour', expense: '$65' },
-      { id: 2, activity: 'St. Peter\'s Basilica & Square', expense: '$0' },
-      { id: 3, activity: 'Dinner near Piazza Navona', expense: '$45' },
+      { id: 1, activity: 'Vatican Museums & Sistine Chapel guided tour', expense: '₹5,400' },
+      { id: 2, activity: 'St. Peter\'s Basilica & Square', expense: '₹0' },
+      { id: 3, activity: 'Dinner near Piazza Navona', expense: '₹3,750' },
     ],
   },
   {
     id: 3,
     label: 'Day 3',
     rows: [
-      { id: 1, activity: 'Colosseum & Palatine Hill skip-the-line tour', expense: '$55' },
-      { id: 2, activity: 'Borghese Gallery visit (pre-booked)', expense: '$30' },
-      { id: 3, activity: 'Trevi Fountain & Spanish Steps stroll', expense: '$0' },
+      { id: 1, activity: 'Colosseum & Palatine Hill skip-the-line tour', expense: '₹4,600' },
+      { id: 2, activity: 'Borghese Gallery visit (pre-booked)', expense: '₹2,500' },
+      { id: 3, activity: 'Trevi Fountain & Spanish Steps stroll', expense: '₹0' },
     ],
   },
 ]
@@ -155,7 +155,7 @@ const ItineraryPage: React.FC = () => {
                         type="text"
                         value={row.expense}
                         onChange={(e) => updateRow(day.id, row.id, 'expense', e.target.value)}
-                        placeholder="$0"
+                        placeholder="₹0"
                         className="px-4 py-2.5 bg-transparent border border-white/[0.10] rounded-lg text-sm text-[#f0ede8] placeholder-white/20 focus:outline-none focus:ring-1 focus:ring-[#e8614a]/40 transition text-center"
                       />
                     </div>

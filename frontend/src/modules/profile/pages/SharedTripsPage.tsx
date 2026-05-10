@@ -5,9 +5,9 @@ interface SharedTrip { id: number; title: string; author: string; destination: s
 
 const SHARED_TRIPS: SharedTrip[] = [
   { id: 1, title: 'Epic Paris & Rome Adventure', author: 'Sarah Johnson', destination: 'Europe', image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=800&auto=format&fit=crop', duration: 14, budget: 4500, views: 3240, description: 'An unforgettable 2-week journey through the most romantic cities in Europe.' },
-  { id: 2, title: 'Southeast Asia 3 Weeks', author: 'Mike Chen', destination: 'Southeast Asia', image: 'https://images.unsplash.com/photo-1537225228614-b4fad35b6789?q=80&w=800&auto=format&fit=crop', duration: 21, budget: 3200, views: 5120, description: 'Budget-friendly exploration of Thailand, Cambodia, and Vietnam.' },
+  { id: 2, title: 'Southeast Asia 3 Weeks', author: 'Mike Chen', destination: 'Southeast Asia', image: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=800&auto=format&fit=crop', duration: 21, budget: 3200, views: 5120, description: 'Budget-friendly exploration of Thailand, Cambodia, and Vietnam.' },
   { id: 3, title: 'New Zealand Road Trip', author: 'Emma Davis', destination: 'New Zealand', image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=800&auto=format&fit=crop', duration: 10, budget: 3800, views: 2890, description: 'North and South Island adventure with hiking and scenic drives.' },
-  { id: 4, title: 'Japan Cultural Experience', author: 'Alex Park', destination: 'Japan', image: 'https://images.unsplash.com/photo-1540959375944-7049f642e9d4?q=80&w=800&auto=format&fit=crop', duration: 12, budget: 4200, views: 4560, description: 'Traditional temples, modern cities, and authentic cuisine.' },
+  { id: 4, title: 'Japan Cultural Experience', author: 'Alex Park', destination: 'Japan', image: 'https://images.unsplash.com/photo-1513407030348-c983a97b98d8?q=80&w=800&auto=format&fit=crop', duration: 12, budget: 4200, views: 4560, description: 'Traditional temples, modern cities, and authentic cuisine.' },
   { id: 5, title: 'Maldives Honeymoon', author: 'Sophie & Mark', destination: 'Maldives', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop', duration: 7, budget: 5500, views: 6780, description: 'Luxury island resort experience with water activities and relaxation.' },
 ]
 
@@ -47,7 +47,7 @@ const SharedTripsPage: React.FC = () => {
                   <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3 text-[#e8614a]/60" />{trip.destination}</div>
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5"><Calendar className="w-3 h-3 text-[#e8614a]/60" />{trip.duration} days</span>
-                    <span className="flex items-center gap-1.5"><DollarSign className="w-3 h-3 text-[#e8614a]/60" />${trip.budget}</span>
+                    <span className="flex items-center gap-1.5"><DollarSign className="w-3 h-3 text-[#e8614a]/60" />₹{trip.budget}</span>
                   </div>
                 </div>
                 <button className="w-full py-2 bg-[#e8614a]/15 hover:bg-[#e8614a]/30 border border-[#e8614a]/25 text-[#e8614a] text-sm font-semibold rounded-lg transition flex items-center justify-center gap-1.5">
@@ -69,7 +69,7 @@ const SharedTripsPage: React.FC = () => {
             <p className="text-white/40 text-sm mb-3 flex items-center gap-1"><User className="w-3.5 h-3.5" />by {selected.author}</p>
             <p className="text-white/60 text-sm mb-5 leading-relaxed">{selected.description}</p>
             <div className="grid grid-cols-2 gap-3 mb-5">
-              {[['Destination', selected.destination], ['Duration', `${selected.duration} days`], ['Budget', `$${selected.budget}`], ['Views', selected.views.toLocaleString()]].map(([label, val]) => (
+              {[['Destination', selected.destination], ['Duration', `${selected.duration} days`], ['Budget', `₹${selected.budget}`], ['Views', selected.views.toLocaleString()]].map(([label, val]) => (
                 <div key={label} className="bg-white/[0.05] p-3 rounded-lg">
                   <p className="text-white/40 text-xs mb-1">{label}</p>
                   <p className="font-bold text-sm">{val}</p>

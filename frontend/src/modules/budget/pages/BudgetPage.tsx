@@ -15,21 +15,21 @@ const DEFAULT_SECTIONS: Section[] = [
     title: 'Section 1:',
     description: 'Flight — Paris to Rome\nRound-trip economy class tickets for 2 passengers. Includes checked baggage and in-flight meals.',
     dateRange: 'Jun 15 to Jun 22',
-    budget: '$480',
+    budget: '₹480',
   },
   {
     id: 2,
     title: 'Section 2:',
     description: 'Hotel — Rome City Centre\n4-star hotel stay for 5 nights near the Colosseum. Breakfast included, free cancellation until Jun 10.',
     dateRange: 'Jun 22 to Jun 27',
-    budget: '$750',
+    budget: '₹750',
   },
   {
     id: 3,
     title: 'Section 3:',
     description: 'Activities & Sightseeing\nVatican Museums, Colosseum guided tour, Borghese Gallery. Pre-booked skip-the-line tickets.',
     dateRange: 'Jun 23 to Jun 26',
-    budget: '$210',
+    budget: '₹210',
   },
 ]
 
@@ -55,7 +55,7 @@ const BudgetPage: React.FC = () => {
       <div className="max-w-2xl mx-auto px-6 py-10 space-y-4">
 
         {sections.map((section) => (
-          <div key={section.id} className="border border-white/[0.10] rounded-2xl p-6 group hover:border-white/[0.16] transition">
+          <div key={section.id} className="border border-white/[0.10] rounded-2xl p-6 group hover:border-[#e8614a]/40 transition">
 
             {/* Title */}
             <div className="flex items-center justify-between mb-3">
@@ -63,7 +63,7 @@ const BudgetPage: React.FC = () => {
                 type="text"
                 value={section.title}
                 onChange={(e) => update(section.id, 'title', e.target.value)}
-                className="text-base font-bold bg-transparent text-[#f0ede8] focus:outline-none w-full"
+                className="text-base font-bold bg-transparent text-[#e8614a] focus:outline-none w-full"
               />
               {sections.length > 1 && (
                 <button
@@ -90,14 +90,14 @@ const BudgetPage: React.FC = () => {
                 value={section.dateRange}
                 onChange={(e) => update(section.id, 'dateRange', e.target.value)}
                 placeholder="Date Range:   xxx to yyy"
-                className="w-48 px-4 py-2 bg-transparent border border-white/[0.15] rounded-lg text-sm text-white/70 placeholder-white/30 focus:outline-none focus:border-[#e8614a]/50 transition"
+                className="w-48 px-4 py-2 bg-transparent border border-[#e8614a]/25 rounded-lg text-sm text-white/70 placeholder-white/30 focus:outline-none focus:border-[#e8614a]/60 transition"
               />
               <input
                 type="text"
                 value={section.budget}
                 onChange={(e) => update(section.id, 'budget', e.target.value)}
                 placeholder="Budget of this section"
-                className="flex-1 px-4 py-2 bg-transparent border border-white/[0.15] rounded-lg text-sm text-white/70 placeholder-white/30 focus:outline-none focus:border-[#e8614a]/50 transition text-center"
+                className="flex-1 px-4 py-2 bg-transparent border border-[#e8614a]/25 rounded-lg text-sm text-white/70 placeholder-white/30 focus:outline-none focus:border-[#e8614a]/60 transition text-center"
               />
             </div>
           </div>

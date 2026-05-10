@@ -4,12 +4,12 @@ import { MapPin, Search, DollarSign, TrendingUp, X } from 'lucide-react'
 interface City { id: number; name: string; country: string; image: string; costIndex: number; popularity: number; description: string }
 
 const CITIES: City[] = [
-  { id: 1, name: 'Tokyo', country: 'Japan', image: 'https://images.unsplash.com/photo-1540959375944-7049f642e9d4?q=80&w=1200&auto=format&fit=crop', costIndex: 85, popularity: 95, description: 'Modern metropolis with ancient temples and world-class cuisine.' },
+  { id: 1, name: 'Tokyo', country: 'Japan', image: 'https://images.unsplash.com/photo-1513407030348-c983a97b98d8?q=80&w=1200&auto=format&fit=crop', costIndex: 85, popularity: 95, description: 'Modern metropolis with ancient temples and world-class cuisine.' },
   { id: 2, name: 'Paris', country: 'France', image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop', costIndex: 90, popularity: 98, description: 'City of light, romance, and iconic architecture.' },
-  { id: 3, name: 'Bangkok', country: 'Thailand', image: 'https://images.unsplash.com/photo-1508009603733-e38d8ea67f3a?q=80&w=1200&auto=format&fit=crop', costIndex: 45, popularity: 88, description: 'Vibrant street food, temples, and nightlife.' },
-  { id: 4, name: 'Barcelona', country: 'Spain', image: 'https://images.unsplash.com/photo-1583420694155-2a76f05a6d5d?q=80&w=1200&auto=format&fit=crop', costIndex: 75, popularity: 92, description: 'Gaudí architecture, beaches, and tapas culture.' },
+  { id: 3, name: 'Bangkok', country: 'Thailand', image: 'https://images.unsplash.com/photo-1563492065599-3520f775eeed?q=80&w=1200&auto=format&fit=crop', costIndex: 45, popularity: 88, description: 'Vibrant street food, temples, and nightlife.' },
+  { id: 4, name: 'Barcelona', country: 'Spain', image: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?q=80&w=1200&auto=format&fit=crop', costIndex: 75, popularity: 92, description: 'Gaudí architecture, beaches, and tapas culture.' },
   { id: 5, name: 'New York', country: 'USA', image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1200&auto=format&fit=crop', costIndex: 95, popularity: 99, description: 'The city that never sleeps — culture, food, and skyline.' },
-  { id: 6, name: 'Dubai', country: 'UAE', image: 'https://images.unsplash.com/photo-1512453328517-10c14091dc57?q=80&w=1200&auto=format&fit=crop', costIndex: 100, popularity: 90, description: 'Luxury shopping, desert adventures, and futuristic skyline.' },
+  { id: 6, name: 'Dubai', country: 'UAE', image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=1200&auto=format&fit=crop', costIndex: 100, popularity: 90, description: 'Luxury shopping, desert adventures, and futuristic skyline.' },
 ]
 
 const CitySearchPage: React.FC = () => {

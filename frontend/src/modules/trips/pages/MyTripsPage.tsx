@@ -5,9 +5,9 @@ import { Search, Plus } from 'lucide-react'
 const TRIPS = [
   { id: 1, title: 'Paris & Rome Adventure', destination: 'France & Italy', start: 'Jun 15, 2025', end: 'Jun 27, 2025', status: 'ongoing', image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop' },
   { id: 2, title: 'Summer in Greece', destination: 'Santorini, Greece', start: 'Jul 10, 2025', end: 'Jul 18, 2025', status: 'upcoming', image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=1200&auto=format&fit=crop' },
-  { id: 3, title: 'Nordic Explorer', destination: 'Scandinavia', start: 'Aug 1, 2025', end: 'Aug 12, 2025', status: 'upcoming', image: 'https://images.unsplash.com/photo-1531366936336-62fc67463b44?q=80&w=1200&auto=format&fit=crop' },
+  { id: 3, title: 'Nordic Explorer', destination: 'Scandinavia', start: 'Aug 1, 2025', end: 'Aug 12, 2025', status: 'upcoming', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop' },
   { id: 4, title: 'Tokyo to Kyoto Adventure', destination: 'Japan', start: 'Mar 15, 2025', end: 'Mar 25, 2025', status: 'completed', image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop' },
-  { id: 5, title: 'Southeast Asia Explorer', destination: 'Thailand & Bali', start: 'Jan 5, 2025', end: 'Jan 18, 2025', status: 'completed', image: 'https://images.unsplash.com/photo-1537225228614-b4fad35b6789?q=80&w=1200&auto=format&fit=crop' },
+  { id: 5, title: 'Southeast Asia Explorer', destination: 'Thailand & Bali', start: 'Jan 5, 2025', end: 'Jan 18, 2025', status: 'completed', image: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=1200&auto=format&fit=crop' },
 ]
 
 export const MyTripsPage: React.FC = () => {
@@ -43,7 +43,7 @@ export const MyTripsPage: React.FC = () => {
     if (trips.length === 0) return null
     return (
       <section>
-        <h2 className="text-xl font-bold mb-3">{label}</h2>
+        <h2 className="text-xl font-bold mb-3 text-[#e8614a]">{label}</h2>
         <div className="space-y-3">
           {trips.map((t) => <TripCard key={t.id} trip={t} />)}
         </div>
