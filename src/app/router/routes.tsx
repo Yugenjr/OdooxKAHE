@@ -7,6 +7,7 @@ import { SignupPage } from '@/modules/auth/pages/SignupPage'
 import { DashboardPage } from '@/modules/dashboard/pages/DashboardPage'
 import { MyTripsPage } from '@/modules/trips/pages/MyTripsPage'
 import { CreateTripPage } from '@/modules/trips/pages/CreateTripPage'
+import LandingPage from '@/landing/LandingPage'
 
 // Auth routes
 const authRoutes: RouteObject[] = [
@@ -45,11 +46,15 @@ const appRoutes: RouteObject[] = [
 const routes: RouteObject[] = [
   {
     path: '/',
+    element: <LandingPage />,
+  },
+  {
+    path: '/auth',
     element: <AuthLayout />,
     children: authRoutes,
   },
   {
-    path: '/',
+    path: '/app',
     element: <MainLayout />,
     children: appRoutes,
   },
