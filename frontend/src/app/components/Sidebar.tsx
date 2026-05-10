@@ -14,6 +14,8 @@ import {
   Menu,
   X,
   ChevronDown,
+  Plus,
+  CalendarRange,
 } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 
@@ -34,6 +36,18 @@ const NAV_ITEMS: NavItem[] = [
     label: 'My Trips',
     icon: <MapPin className="w-5 h-5" />,
     path: '/app/trips',
+    children: [
+      {
+        label: 'Create Trip',
+        icon: <Plus className="w-4 h-4" />,
+        path: '/app/trips/create',
+      },
+    ],
+  },
+  {
+    label: 'Itinerary Builder',
+    icon: <CalendarRange className="w-5 h-5" />,
+    path: '/app/itinerary',
   },
   {
     label: 'Explore',

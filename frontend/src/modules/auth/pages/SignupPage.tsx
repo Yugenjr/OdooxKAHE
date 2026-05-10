@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { Plane, Camera } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { supabase } from '@/lib/supabase/client';
 
 const bgUrl = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop';
 
@@ -13,6 +14,8 @@ export const SignupPage: React.FC = () => {
     firstName: '',
     lastName: '',
     email: '',
+    password: '',
+    confirmPassword: '',
     phone: '',
     city: '',
     country: '',
@@ -25,7 +28,7 @@ export const SignupPage: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -40,24 +43,53 @@ export const SignupPage: React.FC = () => {
       return;
     }
 
-    // Mock signup
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     setLoading(true);
-    setTimeout(() => {
-      // Create mock user
-      const mockUser = {
-        id: Math.random().toString(36).substring(7),
-        email: formData.email,
+
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+      options: {
+        data: {
+          name: `${formData.firstName} ${formData.lastName}`,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          city: formData.city,
+          country: formData.country,
+          additional_info: formData.additionalInfo,
+        },
+      },
+    })
+
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+      return
+    }
+
+    if (data.session?.user) {
+      setUser({
+        id: data.session.user.id,
+        email: data.session.user.email || formData.email,
         name: `${formData.firstName} ${formData.lastName}`,
-      };
+      })
+      setToken(data.session.access_token)
+      navigate('/app/dashboard')
+    } else {
+      setError('Account created. Please check your email to confirm the account before logging in.')
+      navigate('/login')
+    }
 
-      // Set auth state
-      setUser(mockUser);
-      setToken('mock-token-' + Date.now());
-
-      // Redirect to dashboard
-      navigate('/app/dashboard');
-      setLoading(false);
-    }, 800);
+    setLoading(false)
   };
 
   return (
@@ -172,6 +204,33 @@ export const SignupPage: React.FC = () => {
                       onChange={handleChange}
                       className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 text-white text-sm placeholder-white/40 transition-all"
                       placeholder="Email Address"
+                      required
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-semibold text-white/90 ml-1">Password</label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 text-white text-sm placeholder-white/40 transition-all"
+                      placeholder="Create a password"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-semibold text-white/90 ml-1">Confirm Password</label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 text-white text-sm placeholder-white/40 transition-all"
+                      placeholder="Confirm password"
                       required
                     />
                   </div>

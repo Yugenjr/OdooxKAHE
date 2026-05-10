@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { Plane } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { supabase } from '@/lib/supabase/client';
 
 const bgUrl = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop';
 
@@ -15,7 +16,7 @@ export const LoginPage: React.FC = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -35,24 +36,34 @@ export const LoginPage: React.FC = () => {
       return;
     }
 
-    // Mock login
     setLoading(true);
-    setTimeout(() => {
-      // Create mock user
-      const mockUser = {
-        id: Math.random().toString(36).substring(7),
-        email: email,
-        name: email.split('@')[0],
-      };
 
-      // Set auth state
-      setUser(mockUser);
-      setToken('mock-token-' + Date.now());
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-      // Redirect to dashboard
-      navigate('/app/dashboard');
+    if (error || !data.session?.user) {
+      setError(error?.message || 'Login failed');
       setLoading(false);
-    }, 800);
+      return;
+    }
+
+    const sessionUser = data.session.user;
+
+    setUser({
+      id: sessionUser.id,
+      email: sessionUser.email || email,
+      name:
+        sessionUser.user_metadata?.name ||
+        sessionUser.user_metadata?.full_name ||
+        sessionUser.email?.split('@')[0] ||
+        email.split('@')[0],
+    });
+    setToken(data.session.access_token);
+
+    navigate('/app/dashboard');
+    setLoading(false);
   };
 
   return (

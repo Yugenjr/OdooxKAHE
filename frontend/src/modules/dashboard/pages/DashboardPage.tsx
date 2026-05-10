@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Bell, Settings, MapPin, Clock, ArrowRight, Sparkles, TrendingUp, DollarSign, Calendar } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
+import { supabase } from '@/utils/supabase'
 
 // Categories with multiple sample destinations per category
 type Category = {
@@ -209,6 +210,38 @@ export const DashboardPage: React.FC = () => {
   const [groupBy, setGroupBy] = useState('region')
   const [sortBy, setSortBy] = useState('recent')
   const [selectedId, setSelectedId] = useState(CATEGORIES[0].id)
+  const [liveCities, setLiveCities] = useState<Array<{ id: string; name: string; country: string; estimated_cost_per_day: number | null }>>([])
+  const [citiesLoading, setCitiesLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+
+    const loadCities = async () => {
+      setCitiesLoading(true)
+      const { data, error } = await supabase
+        .from('cities')
+        .select('id, name, country, estimated_cost_per_day')
+        .eq('popular', true)
+        .order('popularity_score', { ascending: false })
+        .limit(6)
+
+      if (!mounted) {
+        return
+      }
+
+      if (!error && data) {
+        setLiveCities(data)
+      }
+
+      setCitiesLoading(false)
+    }
+
+    loadCities()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   const handlePlanTrip = () => {
     navigate('/app/trips/create')
@@ -314,6 +347,43 @@ export const DashboardPage: React.FC = () => {
             <p className="text-3xl font-bold mb-2">$9,030</p>
             <p className="text-white/60 text-sm">On 3 completed trips</p>
           </div>
+        </section>
+
+        {/* Live Cities from Supabase */}
+        <section className="mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <MapPin className="w-6 h-6 text-cyan-400" />
+            <h2 className="text-2xl font-bold">Live Cities from Supabase</h2>
+          </div>
+          {citiesLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="h-28 rounded-2xl bg-white/5 border border-white/10 animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {liveCities.map((city) => (
+                <div key={city.id} className="rounded-2xl bg-white/5 border border-white/10 p-5 backdrop-blur-sm hover:border-cyan-500/50 transition-all duration-300">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-1">{city.name}</h3>
+                      <p className="text-white/60 text-sm">{city.country}</p>
+                    </div>
+                    <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-200">
+                      Popular
+                    </span>
+                  </div>
+                  <div className="mt-4 text-sm text-white/70">
+                    Estimated cost/day:{' '}
+                    <span className="text-white font-semibold">
+                      {city.estimated_cost_per_day ? `₹${city.estimated_cost_per_day}` : 'N/A'}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* Upcoming Trips */}

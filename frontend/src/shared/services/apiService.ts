@@ -1,7 +1,8 @@
-import axios, { AxiosInstance, AxiosError, AxiosResponse } from 'axios'
+import axios, { type AxiosInstance, type AxiosError, type AxiosResponse } from 'axios'
 import { useAuthStore } from '@/store/authStore'
+import { supabase } from '@/lib/supabase/client'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api'
 const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT ? parseInt(import.meta.env.VITE_API_TIMEOUT) : 10000
 
 class ApiService {
@@ -22,11 +23,15 @@ class ApiService {
   private setupInterceptors() {
     // Request interceptor
     this.api.interceptors.request.use(
-      (config) => {
-        const token = useAuthStore.getState().token
+      async (config) => {
+        const storedToken = useAuthStore.getState().token
+        const { data } = await supabase.auth.getSession()
+        const token = storedToken || data.session?.access_token
+
         if (token) {
           config.headers.Authorization = `Bearer ${token}`
         }
+
         return config
       },
       (error) => Promise.reject(error)

@@ -1,175 +1,173 @@
-import React, { useState } from 'react'
-import { DollarSign, TrendingUp, AlertCircle, PieChart } from 'lucide-react'
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAuthStore } from '@/store/authStore';
+import { traveloopApi } from '@/shared/services/traveloopApi';
 
-interface BudgetCategory {
-  name: string
-  budget: number
-  spent: number
-  color: string
+interface Expense {
+  id: string;
+  trip_id: string;
+  category: string;
+  description: string;
+  amount: number;
+  currency: string;
+  paid_by: string;
+  date: string;
+  created_at: string;
 }
 
-const BudgetPage: React.FC = () => {
-  const [categories, setCategories] = useState<BudgetCategory[]>([
-    { name: 'Accommodation', budget: 1500, spent: 1200, color: 'indigo' },
-    { name: 'Transportation', budget: 800, spent: 650, color: 'cyan' },
-    { name: 'Activities', budget: 600, spent: 400, color: 'blue' },
-    { name: 'Food & Dining', budget: 900, spent: 950, color: 'purple' },
-    { name: 'Shopping', budget: 500, spent: 300, color: 'pink' },
-  ])
+export const BudgetPage = () => {
+  const { tripId } = useParams<{ tripId: string }>();
+  const { user } = useAuthStore();
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [newExpense, setNewExpense] = useState({
+    category: '',
+    description: '',
+    amount: 0,
+    currency: 'USD',
+    paid_by: user?.id || '',
+    date: new Date().toISOString().split('T')[0],
+  });
 
-  const totalBudget = categories.reduce((sum, cat) => sum + cat.budget, 0)
-  const totalSpent = categories.reduce((sum, cat) => sum + cat.spent, 0)
-  const remainingBudget = totalBudget - totalSpent
-  const percentageSpent = (totalSpent / totalBudget) * 100
+  useEffect(() => {
+    fetchExpenses();
+  }, [tripId]);
 
-  const isOverBudget = totalSpent > totalBudget
+  const fetchExpenses = async () => {
+    try {
+      setLoading(true);
+      if (!tripId) return;
+      const response = await traveloopApi.get(`/budget/${tripId}/expenses`);
+      setExpenses(response.expenses || []);
+    } catch (err: any) {
+      setError(err.message || 'Failed to fetch expenses');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddExpense = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (!tripId) return;
+      await traveloopApi.post(`/budget/${tripId}/expenses`, newExpense);
+      setNewExpense({
+        category: '',
+        description: '',
+        amount: 0,
+        currency: 'USD',
+        paid_by: user?.id || '',
+        date: new Date().toISOString().split('T')[0],
+      });
+      setShowForm(false);
+      await fetchExpenses();
+    } catch (err: any) {
+      setError(err.message || 'Failed to add expense');
+    }
+  };
+
+  const handleDeleteExpense = async (expenseId: string) => {
+    try {
+      if (!tripId) return;
+      await traveloopApi.delete(`/budget/${tripId}/expenses/${expenseId}`);
+      await fetchExpenses();
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete expense');
+    }
+  };
+
+  const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+
+  if (loading) return <div className="p-4">Loading expenses...</div>;
+  if (error) return <div className="p-4 text-red-600">Error: {error}</div>;
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white p-6">
-      {/* Background gradient */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 left-1/3 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-green-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Budget</h1>
+        <button
+          onClick={() => setShowForm(!showForm)}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+        >
+          Add Expense
+        </button>
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <DollarSign className="w-8 h-8 text-green-400" />
-            <h1 className="text-4xl font-bold">Budget & Cost Breakdown</h1>
+      {showForm && (
+        <form onSubmit={handleAddExpense} className="bg-gray-100 p-4 rounded-lg mb-6">
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <input
+              type="text"
+              placeholder="Category"
+              value={newExpense.category}
+              onChange={(e) => setNewExpense({ ...newExpense, category: e.target.value })}
+              className="px-3 py-2 border rounded"
+              required
+            />
+            <input
+              type="text"
+              placeholder="Description"
+              value={newExpense.description}
+              onChange={(e) => setNewExpense({ ...newExpense, description: e.target.value })}
+              className="px-3 py-2 border rounded"
+              required
+            />
+            <input
+              type="number"
+              placeholder="Amount"
+              value={newExpense.amount}
+              onChange={(e) => setNewExpense({ ...newExpense, amount: parseFloat(e.target.value) })}
+              className="px-3 py-2 border rounded"
+              required
+            />
+            <select
+              value={newExpense.currency}
+              onChange={(e) => setNewExpense({ ...newExpense, currency: e.target.value })}
+              className="px-3 py-2 border rounded"
+            >
+              <option>USD</option>
+              <option>EUR</option>
+              <option>GBP</option>
+              <option>INR</option>
+            </select>
           </div>
-          <p className="text-white/60">Track your trip expenses and stay within budget</p>
-        </div>
+          <button
+            type="submit"
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            Save Expense
+          </button>
+        </form>
+      )}
 
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          {/* Total Budget */}
-          <div className="bg-gradient-to-br from-indigo-600/20 to-indigo-600/5 border border-indigo-500/30 rounded-2xl p-6">
-            <div className="text-white/60 text-sm font-semibold mb-2">Total Budget</div>
-            <div className="text-3xl font-bold mb-1">${totalBudget.toLocaleString()}</div>
-            <div className="text-white/40 text-xs">for entire trip</div>
-          </div>
+      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <h2 className="text-xl font-semibold mb-2">Total: {totalAmount.toFixed(2)}</h2>
+      </div>
 
-          {/* Total Spent */}
-          <div className="bg-gradient-to-br from-cyan-600/20 to-cyan-600/5 border border-cyan-500/30 rounded-2xl p-6">
-            <div className="text-white/60 text-sm font-semibold mb-2">Total Spent</div>
-            <div className="text-3xl font-bold mb-1">${totalSpent.toLocaleString()}</div>
-            <div className="text-white/40 text-xs">{percentageSpent.toFixed(1)}% of budget</div>
-          </div>
-
-          {/* Remaining */}
-          <div className={`rounded-2xl p-6 ${isOverBudget ? 'bg-gradient-to-br from-red-600/20 to-red-600/5 border border-red-500/30' : 'bg-gradient-to-br from-green-600/20 to-green-600/5 border border-green-500/30'}`}>
-            <div className="text-white/60 text-sm font-semibold mb-2">Remaining Budget</div>
-            <div className={`text-3xl font-bold mb-1 ${isOverBudget ? 'text-red-400' : 'text-green-400'}`}>
-              ${Math.abs(remainingBudget).toLocaleString()}
-            </div>
-            <div className="text-white/40 text-xs">{isOverBudget ? 'Over budget' : 'left to spend'}</div>
-          </div>
-
-          {/* Per Day Average */}
-          <div className="bg-gradient-to-br from-purple-600/20 to-purple-600/5 border border-purple-500/30 rounded-2xl p-6">
-            <div className="text-white/60 text-sm font-semibold mb-2">Per Day Average</div>
-            <div className="text-3xl font-bold mb-1">${(totalSpent / 10).toFixed(0)}</div>
-            <div className="text-white/40 text-xs">based on 10 days</div>
-          </div>
-        </div>
-
-        {/* Alert if over budget */}
-        {isOverBudget && (
-          <div className="mb-8 bg-red-600/20 border border-red-500/50 rounded-2xl p-4 flex items-center gap-3">
-            <AlertCircle className="w-6 h-6 text-red-400 flex-shrink-0" />
+      <div className="space-y-3">
+        {expenses.map((expense) => (
+          <div key={expense.id} className="bg-white rounded-lg shadow p-4 flex justify-between items-center">
             <div>
-              <p className="font-semibold text-red-300">Over Budget Alert</p>
-              <p className="text-red-200/80 text-sm">
-                You've exceeded your budget by ${(totalSpent - totalBudget).toLocaleString()}. Consider adjusting your spending or increasing your budget.
-              </p>
+              <h3 className="font-semibold">{expense.category}</h3>
+              <p className="text-gray-600">{expense.description}</p>
+              <p className="text-sm text-gray-400">{expense.date}</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="text-lg font-bold">{expense.amount} {expense.currency}</span>
+              <button
+                onClick={() => handleDeleteExpense(expense.id)}
+                className="text-red-600 hover:text-red-800"
+              >
+                Delete
+              </button>
             </div>
           </div>
-        )}
-
-        {/* Budget Categories */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Categories List */}
-          <div>
-            <h2 className="text-xl font-bold mb-4">Breakdown by Category</h2>
-            <div className="space-y-4">
-              {categories.map((category, idx) => {
-                const categoryPercentage = (category.spent / category.budget) * 100
-                const isOver = category.spent > category.budget
-
-                return (
-                  <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-4 hover:border-white/20 transition">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold">{category.name}</h3>
-                      <span className={`text-sm font-bold ${isOver ? 'text-red-400' : 'text-green-400'}`}>
-                        ${category.spent} / ${category.budget}
-                      </span>
-                    </div>
-
-                    {/* Progress bar */}
-                    <div className="relative h-3 bg-white/10 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all ${
-                          isOver ? 'bg-gradient-to-r from-red-600 to-red-400' : 'bg-gradient-to-r from-indigo-600 to-cyan-600'
-                        }`}
-                        style={{ width: `${Math.min(categoryPercentage, 100)}%` }}
-                      />
-                    </div>
-
-                    <div className="flex items-center justify-between mt-2 text-xs text-white/60">
-                      <span>{categoryPercentage.toFixed(0)}% spent</span>
-                      <span>${(category.budget - category.spent).toLocaleString()} remaining</span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Pie Chart Alternative - Simple visual */}
-          <div className="flex flex-col items-center justify-center bg-white/5 border border-white/10 rounded-2xl p-8">
-            <PieChart className="w-12 h-12 text-indigo-400 mb-4" />
-            <h2 className="text-xl font-bold mb-6">Expense Distribution</h2>
-
-            <div className="w-full space-y-3">
-              {categories.map((category, idx) => {
-                const percentage = (category.spent / totalSpent) * 100
-                return (
-                  <div key={idx} className="flex items-center gap-3">
-                    <div className={`w-4 h-4 rounded-full bg-${category.color}-600`} />
-                    <span className="text-sm flex-1">{category.name}</span>
-                    <span className="font-semibold text-sm">{percentage.toFixed(1)}%</span>
-                  </div>
-                )
-              })}
-            </div>
-
-            <div className="mt-8 p-4 bg-white/5 rounded-lg w-full text-center">
-              <p className="text-white/60 text-xs mb-1">Current Trend</p>
-              <p className="text-lg font-bold text-indigo-300 flex items-center justify-center gap-2">
-                <TrendingUp className="w-5 h-5" />
-                {percentageSpent > 75 ? 'High spending' : percentageSpent > 50 ? 'Moderate spending' : 'Low spending'}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Tips */}
-        <div className="bg-gradient-to-r from-indigo-600/10 to-cyan-600/10 border border-indigo-500/30 rounded-2xl p-6">
-          <h3 className="font-bold mb-3 flex items-center gap-2">
-            <AlertCircle className="w-5 h-5 text-indigo-400" />
-            Budget Tips
-          </h3>
-          <ul className="space-y-2 text-sm text-white/80">
-            <li>✓ Food & Dining is 25% over budget - consider cooking some meals</li>
-            <li>✓ Transportation savings are helping offset other expenses</li>
-            <li>✓ Still time to adjust spending on shopping and activities</li>
-          </ul>
-        </div>
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BudgetPage
+export default BudgetPage;
