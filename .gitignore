@@ -48,3 +48,7 @@ coverage/
 refactor.ps1
 .cache
 *.tsbuildinfo
+frontend/node_modules
+backend/node_modules
+frontend/dist
+backend/dist
