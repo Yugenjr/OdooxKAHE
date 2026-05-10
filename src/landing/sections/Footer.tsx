@@ -2,7 +2,7 @@ import { Plane, Twitter, Instagram, Github } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/5 bg-[#050505] pt-16 pb-8 font-outfit">
+    <footer className="relative overflow-hidden border-t border-white/5 bg-[#050505] pt-20 mt-20 md:pt-16 md:mt-16 pb-8 font-outfit">
 
       {/* Background Glow */}
       <div className="absolute bottom-0 left-1/2 h-[220px] w-3/4 -translate-x-1/2 bg-indigo-500/5 blur-[120px] pointer-events-none" />
@@ -56,65 +56,26 @@ export default function Footer() {
 
           {/* Social Icons */}
           <div className="flex items-center gap-4">
-            <a
-              href="/"
-              className="
-                glass-panel
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-full
-                text-zinc-400
-                transition-all
-                duration-300
-                hover:-translate-y-1
-                hover:text-white
-              "
-            >
-              <Twitter className="h-4 w-4" />
-            </a>
-
-            <a
-              href="/"
-              className="
-                glass-panel
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-full
-                text-zinc-400
-                transition-all
-                duration-300
-                hover:-translate-y-1
-                hover:text-white
-              "
-            >
-              <Instagram className="h-4 w-4" />
-            </a>
-
-            <a
-              href="/"
-              className="
-                glass-panel
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-full
-                text-zinc-400
-                transition-all
-                duration-300
-                hover:-translate-y-1
-                hover:text-white
-              "
-            >
-              <Github className="h-4 w-4" />
-            </a>
+            {[{
+              icon: Twitter,
+              label: 'Twitter',
+            }, {
+              icon: Instagram,
+              label: 'Instagram',
+            }, {
+              icon: Github,
+              label: 'Github',
+            }].map(({ icon: Icon, label }, idx) => (
+              <a
+                key={label}
+                href="/"
+                className="glass-panel flex h-10 w-10 items-center justify-center rounded-full text-zinc-400 transition-all duration-300 hover:-translate-y-1 hover:text-white hover:scale-110 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                style={{ marginTop: 0 }}
+                aria-label={label}
+              >
+                <Icon className="h-4 w-4" />
+              </a>
+            ))}
           </div>
         </div>
 

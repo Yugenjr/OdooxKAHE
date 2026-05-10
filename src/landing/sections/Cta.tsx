@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function Cta() {
   return (
-    <section className="section-spacing mt-32 relative overflow-hidden bg-[#050505] font-outfit border-t border-white/5">
+    <section className="section-spacing mt-40 md:mt-32 relative overflow-hidden bg-[#050505] font-outfit border-t border-white/5">
       {/* Background Cinematic Visuals */}
       <div className="absolute inset-0 z-0">
         <div 

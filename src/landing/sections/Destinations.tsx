@@ -53,7 +53,7 @@ export default function Destinations() {
   const scrollRef = useRef<HTMLDivElement>(null);
   
   return (
-    <section className="section-spacing relative overflow-hidden bg-[#050505] font-outfit">
+    <section className="section-spacing relative overflow-hidden bg-[#050505] font-outfit mt-24 md:mt-32">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       
       <div className="section-container relative z-10 mb-16">
@@ -67,7 +67,7 @@ export default function Destinations() {
             <h2 className="text-4xl md:text-5xl font-light text-white mb-8">
               Explore <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-indigo-300">Destinations</span>
             </h2>
-            <p className="text-zinc-400 font-inter max-w-md">
+            <p className="text-zinc-400 font-inter max-w-md mb-10 md:mb-14">
               Curated experiences around the globe. Discover your next adventure with our intelligent destination insights.
             </p>
           </motion.div>
@@ -87,7 +87,7 @@ export default function Destinations() {
 
       {/* Grid Area */}
       <div className="section-container relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 md:gap-8 xl:gap-10">
         {destinations.map((dest, idx) => (
           <motion.div
             key={dest.id}

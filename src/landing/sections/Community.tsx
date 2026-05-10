@@ -67,7 +67,7 @@ export default function Community() {
           </div>
           {/* Right: Polaroid Grid */}
           <div className="w-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12 items-start">
               {stories.map((story, idx) => (
                 <motion.div
                   key={story.id}

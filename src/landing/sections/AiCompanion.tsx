@@ -17,7 +17,7 @@ export default function AiCompanion() {
 
       <div className="section-container relative z-10">
 
-        <div className="flex flex-col items-center gap-20 lg:flex-row lg:items-center">
+        <div className="flex flex-col items-center gap-20 lg:flex-row lg:items-center mt-8 mb-8">
 
           {/* LEFT SIDE */}
           <div className="relative flex w-full lg:w-[52%] flex-col gap-6">

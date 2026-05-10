@@ -262,17 +262,19 @@ export default function Hero() {
 
           {/* Floating Airline Card */}
           <motion.div
-            initial={{ opacity: 0, y: -50, rotateX: 10 }}
-            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            initial={{ opacity: 0, y: -50, scale: 0.7, rotateX: 10 }}
+            animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+            whileHover={{ scale: 1.08, boxShadow: '0 12px 48px 0 rgba(99,102,241,0.30)', rotate: 2 }}
             transition={{
-              duration: 1,
+              type: 'spring',
+              stiffness: 320,
+              damping: 24,
               delay: 0.5,
-              ease: 'easeOut',
             }}
             className="
               absolute
-              left-0
-              xl:-left-8
+              -left-16
+              xl:-left-32
               top-20
               w-[260px]
               xl:w-[280px]
@@ -283,6 +285,10 @@ export default function Hero() {
               border
               border-white/10
               shadow-2xl
+              transition-all
+              duration-300
+              cursor-pointer
+              z-20
             "
           >
             <div className="flex items-center justify-between mb-4">

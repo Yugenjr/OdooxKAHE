@@ -35,15 +35,15 @@ export default function LandingPage() {
       "
     >
       <div className="relative flex flex-col">
-        <Hero />
-        <Destinations />
-        <Itinerary />
-        <AiCompanion />
-        <Analytics />
-        <Community />
-        <Testimonials />
-        <Cta />
-        <Footer />
+          <div className="mb-16"><Hero /></div>
+          <div className="mb-16"><Destinations /></div>
+          <div className="mb-16"><Itinerary /></div>
+          <div className="mb-16"><AiCompanion /></div>
+          <div className="mb-16"><Analytics /></div>
+          <div className="mb-16"><Community /></div>
+          <div className="mb-16"><Testimonials /></div>
+          <div className="mb-16"><Cta /></div>
+          <Footer />
       </div>
     </main>
   );

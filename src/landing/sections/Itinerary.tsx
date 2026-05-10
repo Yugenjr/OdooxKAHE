@@ -32,7 +32,7 @@ export default function Itinerary() {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-16 md:gap-12 items-center">
           
           {/* Left: Timeline Cards */}
           <div className="w-full space-y-6 relative">

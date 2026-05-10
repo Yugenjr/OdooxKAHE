@@ -11,6 +11,9 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 html,
 body,
 #root {
@@ -56,6 +59,45 @@ body {
 .section-spacing {
   padding-top: 7rem;
   padding-bottom: 7rem;
+}
+
+/* === UI SPACING IMPROVEMENTS === */
+.section-container > *:not(:last-child) {
+  margin-bottom: 3.5rem;
+}
+
+.glass-panel,
+.glass-card {
+  margin-bottom: 1.5rem;
+}
+
+.glass-panel:last-child,
+.glass-card:last-child {
+  margin-bottom: 0;
+}
+
+.section-container .flex,
+.section-container .grid {
+  gap: 2.5rem;
+}
+
+@media (max-width: 1024px) {
+  .section-container > *:not(:last-child) {
+    margin-bottom: 2.5rem;
+  }
+  .section-container .flex,
+  .section-container .grid {
+    gap: 1.5rem;
+  }
+}
+@media (max-width: 640px) {
+  .section-container > *:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+  .glass-panel,
+  .glass-card {
+    margin-bottom: 1rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -188,6 +230,14 @@ body {
 img {
   max-width: 100%;
   display: block;
+  border-radius: inherit !important;
+  transition: border-radius 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Ensure destination grid and hero card images keep rounded corners on hover */
+.rounded-3xl > img,
+.rounded-2xl > img {
+  border-radius: inherit !important;
 }
 
 /* =========================
