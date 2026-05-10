@@ -98,7 +98,7 @@ export default function Hero() {
             className="flex flex-col sm:flex-row sm:items-center items-stretch gap-4 pt-2 w-full sm:w-auto"
           >
             <button
-              onClick={() => (window.location.href = '/login')}
+              onClick={() => (window.location.href = 'http://localhost:5173/login')}
               className="
                 w-full
                 sm:w-auto
