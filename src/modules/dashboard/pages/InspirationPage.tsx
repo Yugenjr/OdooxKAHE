@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Bell, Heart, Share2, Compass } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
+import { motion } from 'framer-motion';
 
 const INSPIRATION_DATA = [
   {
@@ -71,17 +72,32 @@ export const InspirationPage: React.FC = () => {
     ? INSPIRATION_DATA 
     : INSPIRATION_DATA.filter(item => item.category === activeCategory);
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  };
+
   return (
     <div className="min-h-screen bg-[#050505] text-white overflow-hidden font-outfit">
-      {/* Animated background gradient */}
+      {/* Animated background gradient matching Dashboard */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 right-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
       {/* Header */}
       <header className="relative z-20 sticky top-0">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
         <div className="bg-[#050505]/50 backdrop-blur-2xl border-b border-white/5">
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
@@ -91,35 +107,39 @@ export const InspirationPage: React.FC = () => {
                 onClick={() => navigate('/app/dashboard')}
               >
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="relative w-12 h-12 bg-gradient-to-br from-purple-500 via-fuchsia-500 to-pink-500 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg shadow-purple-500/50">
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-cyan-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="relative w-12 h-12 bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-500 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg shadow-indigo-500/50">
                     T
                   </div>
                 </div>
                 <div className="hidden sm:block">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-purple-300 via-fuchsia-300 to-pink-300 bg-clip-text text-transparent group-hover:from-purple-200 group-hover:via-fuchsia-200 group-hover:to-pink-200 transition-all duration-300">Traveloop</span>
+                  <span className="text-2xl font-bold bg-gradient-to-r from-indigo-300 via-blue-300 to-cyan-300 bg-clip-text text-transparent group-hover:from-indigo-200 group-hover:via-blue-200 group-hover:to-cyan-200 transition-all duration-300">Traveloop</span>
                 </div>
               </div>
 
               {/* Center Navigation */}
               <div className="hidden md:flex items-center space-x-8">
-                <a href="/app/dashboard" className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
+                <a href="/app/dashboard" onClick={(e) => { e.preventDefault(); navigate('/app/dashboard'); }} className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
                   <span>Dashboard</span>
-                  <span className="w-1 h-1 bg-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <span className="w-1 h-1 bg-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
+                <a href="/app/trips" onClick={(e) => { e.preventDefault(); navigate('/app/trips'); }} className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
+                  <span>My Trips</span>
+                  <span className="w-1 h-1 bg-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
                 <a href="#" className="text-white hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group relative">
                   <span>Inspiration</span>
-                  <span className="w-1 h-1 bg-pink-500 rounded-full absolute -bottom-2 left-1/2 -translate-x-1/2" />
+                  <span className="w-1 h-1 bg-cyan-500 rounded-full absolute -bottom-2 left-1/2 -translate-x-1/2" />
                 </a>
               </div>
 
               {/* Right Actions */}
               <div className="flex items-center space-x-2">
                 <button className="relative p-3 hover:bg-white/10 rounded-lg transition-all duration-300 group">
-                  <Bell className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+                  <Bell className="w-5 h-5 text-white/70 group-hover:text-white group-hover:text-indigo-400 transition-colors" />
                 </button>
                 <button className="relative ml-2 p-2 hover:bg-white/10 rounded-lg transition-all duration-300">
-                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center text-xs font-bold">
+                  <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-lg flex items-center justify-center text-xs font-bold shadow-lg shadow-indigo-500/50">
                     {user?.name?.charAt(0).toUpperCase() || 'U'}
                   </div>
                 </button>
@@ -132,39 +152,63 @@ export const InspirationPage: React.FC = () => {
       {/* Main Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <Compass className="w-12 h-12 text-pink-400 mx-auto mb-6 animate-pulse" />
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight bg-gradient-to-r from-purple-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-16"
+        >
+          <motion.div
+            animate={{ 
+              rotate: [0, 10, -10, 0],
+              y: [0, -10, 0]
+            }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Compass className="w-12 h-12 text-cyan-400 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]" />
+          </motion.div>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight bg-gradient-to-r from-indigo-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Find Your Next Journey
           </h1>
           <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto">
             Explore curated travel stories, stunning photography, and hidden gems shared by our global community of explorers.
           </p>
-        </div>
+        </motion.div>
 
         {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-4 mb-12"
+        >
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
               className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
                 activeCategory === category 
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/25' 
+                ? 'bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-lg shadow-indigo-500/25 scale-105' 
                 : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
               }`}
             >
               {category}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Masonry Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
           {filteredData.map((item) => (
-            <div 
+            <motion.div 
+              variants={itemVariants}
               key={item.id} 
-              className="group relative rounded-3xl overflow-hidden bg-white/5 border border-white/10 hover:border-pink-500/50 transition-all duration-500 transform hover:-translate-y-2"
+              className="group relative rounded-3xl overflow-hidden bg-white/5 border border-white/10 hover:border-cyan-500/50 transition-all duration-500 transform hover:-translate-y-2"
             >
               <div className="relative h-[400px]">
                 <img 
@@ -181,10 +225,10 @@ export const InspirationPage: React.FC = () => {
                 </div>
 
                 <div className="absolute top-4 right-4 flex gap-2">
-                  <button className="p-2 bg-black/40 backdrop-blur-md rounded-full hover:bg-pink-500 hover:text-white transition-colors duration-300">
+                  <button className="p-2 bg-black/40 backdrop-blur-md rounded-full hover:bg-cyan-500 hover:text-white transition-colors duration-300">
                     <Heart className="w-4 h-4" />
                   </button>
-                  <button className="p-2 bg-black/40 backdrop-blur-md rounded-full hover:bg-purple-500 hover:text-white transition-colors duration-300">
+                  <button className="p-2 bg-black/40 backdrop-blur-md rounded-full hover:bg-indigo-500 hover:text-white transition-colors duration-300">
                     <Share2 className="w-4 h-4" />
                   </button>
                 </div>
@@ -199,16 +243,16 @@ export const InspirationPage: React.FC = () => {
                       <img src={item.avatar} alt={item.author} className="w-8 h-8 rounded-full border border-white/50" />
                       <span className="text-sm font-medium text-white/90">{item.author}</span>
                     </div>
-                    <div className="flex items-center gap-1 text-pink-400">
+                    <div className="flex items-center gap-1 text-cyan-400">
                       <Heart className="w-4 h-4 fill-current" />
                       <span className="text-xs font-bold">{item.likes}</span>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </main>
     </div>
   );
