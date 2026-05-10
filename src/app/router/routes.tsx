@@ -1,21 +1,29 @@
 import { createBrowserRouter } from 'react-router-dom'
 import type { RouteObject } from 'react-router'
+
 import { AuthLayout } from '@/app/layouts/AuthLayout'
 import { MainLayout } from '@/app/layouts/MainLayout'
+
 import { LoginPage } from '@/modules/auth/pages/LoginPage'
 import { SignupPage } from '@/modules/auth/pages/SignupPage'
+
 import { DashboardPage } from '@/modules/dashboard/pages/DashboardPage'
+
 import { InspirationPage } from '@/modules/dashboard/pages/InspirationPage'
+
+
 import { MyTripsPage } from '@/modules/trips/pages/MyTripsPage'
 import { CreateTripPage } from '@/modules/trips/pages/CreateTripPage'
+
 import LandingPage from '@/landing/LandingPage'
 
-// Main app routes
+// Main App Routes
 const appRoutes: RouteObject[] = [
   {
     path: 'dashboard',
     element: <DashboardPage />,
   },
+
   {
     path: 'inspiration',
     element: <InspirationPage />,
@@ -27,6 +35,7 @@ const appRoutes: RouteObject[] = [
         index: true,
         element: <MyTripsPage />,
       },
+
       {
         path: 'create',
         element: <CreateTripPage />,
@@ -35,12 +44,13 @@ const appRoutes: RouteObject[] = [
   },
 ]
 
-// All routes
+// All Routes
 const routes: RouteObject[] = [
   {
     path: '/',
     element: <LandingPage />,
   },
+
   {
     path: '/login',
     element: <AuthLayout />,
@@ -51,6 +61,7 @@ const routes: RouteObject[] = [
       },
     ],
   },
+
   {
     path: '/signup',
     element: <AuthLayout />,
@@ -61,16 +72,20 @@ const routes: RouteObject[] = [
       },
     ],
   },
+
   {
     path: '/app',
     element: <MainLayout />,
     children: appRoutes,
   },
+
   {
     path: '*',
     element: (
-      <div className="flex h-screen items-center justify-center">
-        <h1 className="text-2xl font-bold">404 - Page Not Found</h1>
+      <div className="flex h-screen items-center justify-center bg-black text-white">
+        <h1 className="text-3xl font-bold">
+          404 - Page Not Found
+        </h1>
       </div>
     ),
   },

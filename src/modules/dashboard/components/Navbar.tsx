@@ -17,7 +17,7 @@ const Navbar = () => {
 
         {/* Logo */}
         <div
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate('/app/dashboard')}
           className="flex items-center gap-4 cursor-pointer"
         >
 
@@ -40,17 +40,11 @@ const Navbar = () => {
         {/* Navigation */}
         <div className="hidden lg:flex items-center gap-10 text-white/70 font-medium relative">
 
-          {/* Dashboard */}
-          <button
-            onClick={() => navigate('/dashboard')}
-            className="hover:text-white transition"
-          >
-            Dashboard
-          </button>
+          
 
           {/* My Trips */}
           <button
-            onClick={() => navigate('/trips')}
+            onClick={() => navigate('/app/trips')}
             className="hover:text-white transition"
           >
             My Trips
@@ -71,21 +65,21 @@ const Navbar = () => {
               <div className="absolute top-12 left-0 w-56 bg-[#111111] border border-white/10 rounded-2xl shadow-2xl p-3 flex flex-col gap-2">
 
                 <button
-                  onClick={() => navigate('/city-search')}
+                  onClick={() => navigate('/app/city-search')}
                   className="text-left px-4 py-3 rounded-xl hover:bg-white/10 transition"
                 >
                   City Search
                 </button>
 
                 <button
-                  onClick={() => navigate('/activity-search')}
+                  onClick={() => navigate('/app/activity-search')}
                   className="text-left px-4 py-3 rounded-xl hover:bg-white/10 transition"
                 >
                   Activity Search
                 </button>
 
                 <button
-                  onClick={() => navigate('/shared-trips')}
+                  onClick={() => navigate('/app/shared-trips')}
                   className="text-left px-4 py-3 rounded-xl hover:bg-white/10 transition"
                 >
                   Shared Trips
@@ -98,7 +92,7 @@ const Navbar = () => {
 
           {/* Budget */}
           <button
-            onClick={() => navigate('/budget')}
+            onClick={() => navigate('/app/budget')}
             className="hover:text-white transition"
           >
             Budget
@@ -119,21 +113,21 @@ const Navbar = () => {
               <div className="absolute top-12 left-0 w-64 bg-[#111111] border border-white/10 rounded-2xl shadow-2xl p-3 flex flex-col gap-2">
 
                 <button
-                  onClick={() => navigate('/itinerary')}
+                  onClick={() => navigate('/app/itinerary')}
                   className="text-left px-4 py-3 rounded-xl hover:bg-white/10 transition"
                 >
                   Itinerary Builder
                 </button>
 
                 <button
-                  onClick={() => navigate('/packing')}
+                  onClick={() => navigate('/app/packing')}
                   className="text-left px-4 py-3 rounded-xl hover:bg-white/10 transition"
                 >
                   Packing Checklist
                 </button>
 
                 <button
-                  onClick={() => navigate('/notes')}
+                  onClick={() => navigate('/app/notes')}
                   className="text-left px-4 py-3 rounded-xl hover:bg-white/10 transition"
                 >
                   Trip Notes
@@ -144,7 +138,13 @@ const Navbar = () => {
 
           </div>
 
-          
+          {/* Profile */}
+          <button
+            onClick={() => navigate('/app/profile')}
+            className="hover:text-white transition"
+          >
+            Profile
+          </button>
 
         </div>
 
