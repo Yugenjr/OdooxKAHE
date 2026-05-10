@@ -365,6 +365,6 @@ Please provide:
 ## Next Steps
 
 - **Setup & Running:** [GETTING_STARTED.md](GETTING_STARTED.md)
-- **Frontend Architecture:** [FRONTEND.md](FRONTEND.md)
-- **System Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)
+- **Frontend Architecture:** [frontend.md](frontend.md)
+- **System Architecture:** [architecture.md](architecture.md)
 - **API Endpoints:** [API.md](API.md)

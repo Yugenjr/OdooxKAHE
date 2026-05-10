@@ -344,6 +344,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 ## Next Steps
 
 - **Setup & Running:** [GETTING_STARTED.md](GETTING_STARTED.md)
-- **System Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)
-- **Backend Services:** [BACKEND.md](BACKEND.md)
+- **System Architecture:** [architecture.md](architecture.md)
+- **Backend Services:** [backend.md](backend.md)
 - **API Endpoints:** [API.md](API.md)

@@ -120,8 +120,8 @@ All API calls follow this flow:
 ## Next Steps
 
 - **Setup & Development:** [GETTING_STARTED.md](GETTING_STARTED.md)
-- **Frontend Architecture:** [FRONTEND.md](FRONTEND.md)
-- **Backend Services:** [BACKEND.md](BACKEND.md)
+- **Frontend Architecture:** [frontend.md](frontend.md)
+- **Backend Services:** [backend.md](backend.md)
 - **API Reference:** [API.md](API.md)
 
 ---

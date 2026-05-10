@@ -60,7 +60,10 @@ OdooxKAHE/
 │   └── .env.example
 │
 ├── docs/
-│   ├── ARCHITECTURE.md         # System design and flows (this file's companion)
+│   ├── architecture.md         # System design and flows
+│   ├── frontend.md             # Frontend structure and pages
+│   ├── backend.md              # Backend services and database
+│   ├── API.md                  # API endpoints reference
 │   └── GETTING_STARTED.md      # Setup and development (you are here)
 │
 ├── README.md                    # Project overview

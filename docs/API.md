@@ -738,6 +738,6 @@ Please provide:
 ## Next Steps
 
 - **Setup & Running:** [GETTING_STARTED.md](GETTING_STARTED.md)
-- **Frontend Architecture:** [FRONTEND.md](FRONTEND.md)
-- **Backend Services:** [BACKEND.md](BACKEND.md)
-- **System Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)
+- **Frontend Architecture:** [frontend.md](frontend.md)
+- **Backend Services:** [backend.md](backend.md)
+- **System Architecture:** [architecture.md](architecture.md)

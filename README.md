@@ -9,17 +9,17 @@ Comprehensive documentation organized into 5 sections:
 | File | Purpose |
 |------|---------|
 | **[README.md](README.md)** | Project overview, features, quick start |
-| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** | System design, tech stack, high-level architecture |
-| **[FRONTEND.md](docs/FRONTEND.md)** | React structure, pages, components, flows |
-| **[BACKEND.md](docs/BACKEND.md)** | Services, controllers, database schema, auth *template* |
+| **[architecture.md](docs/architecture.md)** | System design, tech stack, high-level architecture |
+| **[frontend.md](docs/frontend.md)** | React structure, pages, components, flows |
+| **[backend.md](docs/backend.md)** | Services, controllers, database schema, auth *template* |
 | **[API.md](docs/API.md)** | REST endpoints, requests/responses, auth *template* |
 
 **New to the project?** Start with:
-1. Read [ARCHITECTURE.md](docs/ARCHITECTURE.md) for high-level overview
+1. Read [architecture.md](docs/architecture.md) for high-level overview
 2. Follow [Getting Started](#-getting-started) to set up locally
-3. Explore [FRONTEND.md](docs/FRONTEND.md) to understand the UI layer
+3. Explore [frontend.md](docs/frontend.md) to understand the UI layer
 
-**Working on the backend?** Fill in [BACKEND.md](docs/BACKEND.md) and [API.md](docs/API.md) with your actual implementation
+**Working on the backend?** Fill in [backend.md](docs/backend.md) and [API.md](docs/API.md) with your actual implementation
 
 ## About the Project
 
@@ -119,10 +119,10 @@ See [FRONTEND.md](docs/FRONTEND.md) for coding patterns and structure.
 ## Need Help?
 
 - **How do I set up the project?** → See [Getting Started](#-getting-started)
-- **Where's the code organized?** → See [FRONTEND.md](docs/FRONTEND.md)
-- **What are the backend services?** → See [BACKEND.md](docs/BACKEND.md)
+- **Where's the code organized?** → See [frontend.md](docs/frontend.md)
+- **What are the backend services?** → See [backend.md](docs/backend.md)
 - **What's the API structure?** → See [API.md](docs/API.md)
-- **How does data flow?** → See [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **How does data flow?** → See [architecture.md](docs/architecture.md)
 
 ## License
 
