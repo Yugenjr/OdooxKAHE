@@ -4,41 +4,96 @@ import { Search, Bell, Settings, MapPin, Clock, ArrowRight, Sparkles, TrendingUp
 import { useAuthStore } from '@/store/authStore'
 import Navbar from '../components/Navbar'
 
-const RECOMMENDED_DESTINATIONS = [
+// Categories with multiple sample destinations per category
+type Category = {
+  id: number
+  name: string
+  image: string
+  accent?: string
+  featured: {
+    name: string
+    country: string
+    image: string
+    price: number
+  }
+  samples: { name: string; country: string; image: string }[]
+}
+
+const CATEGORIES: Category[] = [
   {
     id: 1,
-    name: 'Tokyo',
-    image: 'https://images.unsplash.com/photo-1540959375944-7049f642e9a1?q=80&w=400&auto=format&fit=crop',
-    country: 'Japan',
-    popularity: 1240,
+    name: 'Adventure',
+    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1200&auto=format&fit=crop',
+    featured: {
+      name: 'Patagonia Trek',
+      country: 'Chile',
+      image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1200&auto=format&fit=crop',
+      price: 18900,
+    },
+    samples: [
+      { name: 'New Zealand', country: 'NZ', image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=600&auto=format&fit=crop' },
+      { name: 'Peru', country: 'Peru', image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=600&auto=format&fit=crop' },
+    ],
   },
   {
     id: 2,
-    name: 'Paris',
-    image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=400&auto=format&fit=crop',
-    country: 'France',
-    popularity: 980,
+    name: 'Honeymoon',
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200&auto=format&fit=crop',
+    featured: {
+      name: 'Maldives Escape',
+      country: 'Maldives',
+      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200&auto=format&fit=crop',
+      price: 27200,
+    },
+    samples: [
+      { name: 'Maldives', country: 'Maldives', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop' },
+      { name: 'Bali', country: 'Indonesia', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop' },
+    ],
   },
   {
     id: 3,
-    name: 'New York',
-    image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=400&auto=format&fit=crop',
-    country: 'USA',
-    popularity: 1540,
+    name: 'Family',
+    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
+    featured: {
+      name: 'Orlando Fun',
+      country: 'USA',
+      image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
+      price: 9800,
+    },
+    samples: [
+      { name: 'Orlando', country: 'USA', image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=600&auto=format&fit=crop' },
+      { name: 'Disneyland', country: 'USA', image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=600&auto=format&fit=crop' },
+    ],
   },
   {
     id: 4,
-    name: 'Dubai',
-    image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=400&auto=format&fit=crop',
-    country: 'UAE',
-    popularity: 850,
+    name: 'Shopping',
+    image: 'https://images.unsplash.com/photo-1520975912998-0b4a3c9a0c9f?q=80&w=1200&auto=format&fit=crop',
+    featured: {
+      name: 'Milan Fashion',
+      country: 'Italy',
+      image: 'https://images.unsplash.com/photo-1520975912998-0b4a3c9a0c9f?q=80&w=1200&auto=format&fit=crop',
+      price: 7600,
+    },
+    samples: [
+      { name: 'Milan', country: 'Italy', image: 'https://images.unsplash.com/photo-1520975912998-0b4a3c9a0c9f?q=80&w=600&auto=format&fit=crop' },
+      { name: 'Dubai Mall', country: 'UAE', image: 'https://images.unsplash.com/photo-1520975912998-0b4a3c9a0c9f?q=80&w=600&auto=format&fit=crop' },
+    ],
   },
   {
     id: 5,
-    name: 'Barcelona',
-    image: 'https://images.unsplash.com/photo-1583422409516-2895a77efded?q=80&w=400&auto=format&fit=crop',
-    country: 'Spain',
-    popularity: 750,
+    name: 'Nightlife',
+    image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1200&auto=format&fit=crop',
+    featured: {
+      name: 'Ibiza Nights',
+      country: 'Spain',
+      image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1200&auto=format&fit=crop',
+      price: 13250,
+    },
+    samples: [
+      { name: 'Ibiza', country: 'Spain', image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=600&auto=format&fit=crop' },
+      { name: 'Bangkok', country: 'Thailand', image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=600&auto=format&fit=crop' },
+    ],
   },
 ]
 
@@ -94,12 +149,66 @@ const UPCOMING_TRIPS = [
   },
 ]
 
+// HeroCard component for the large featured category with crossfade animation
+const HeroCard: React.FC<{
+  selectedId: number
+  categories: Category[]
+}> = ({ selectedId, categories }) => {
+  const navigate = useNavigate()
+  const category = categories.find((c) => c.id === selectedId) || categories[0]
+
+  return (
+    <div className="w-full h-full relative bg-black/20">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={category.id}
+          src={category.featured.image}
+          alt={category.featured.name}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full h-full object-cover"
+        />
+      </AnimatePresence>
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+
+      <div className="absolute left-8 bottom-8 z-20 max-w-2xl">
+        <p className="text-xs text-indigo-200 uppercase tracking-widest mb-2">{category.name}</p>
+        <h3 className="text-5xl font-extrabold leading-tight mb-3">{category.featured.name}</h3>
+        <p className="text-white/80 mb-6">Explore curated {category.name.toLowerCase()} experiences across the world.</p>
+
+        <div className="flex items-center gap-4 mb-6">
+          {category.samples.slice(0, 3).map((s) => (
+            <span key={s.name} className="px-3 py-1 bg-white/10 rounded-full text-sm">{s.name}</span>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div>
+            <p className="text-xs text-white/60">Starts from</p>
+            <p className="text-3xl font-bold text-yellow-300">₹ {category.featured.price}</p>
+          </div>
+          <button
+            onClick={() => navigate(`/app/trips/create?category=${encodeURIComponent(category.name)}`)}
+            className="bg-white text-black rounded-full px-6 py-3 font-semibold shadow-md"
+          >
+            Explore Now →
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate()
   const user = useAuthStore((state) => state.user)
   const [searchTerm, setSearchTerm] = useState('')
   const [groupBy, setGroupBy] = useState('region')
   const [sortBy, setSortBy] = useState('recent')
+  const [selectedId, setSelectedId] = useState(CATEGORIES[0].id)
 
   const handlePlanTrip = () => {
     navigate('/app/trips/create')
@@ -249,41 +358,80 @@ export const DashboardPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Top Regional Selections / Recommended Destinations */}
+        {/* Top Regional Selections / Featured Categories */}
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-6">
             <Sparkles className="w-6 h-6 text-yellow-400" />
             <h2 className="text-2xl font-bold">Top Regional Selections</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {RECOMMENDED_DESTINATIONS.map((destination) => (
-              <div
-                key={destination.id}
-                className="group cursor-pointer rounded-2xl overflow-hidden border border-white/10 hover:border-indigo-500/50 transition-all duration-300 transform hover:scale-105"
-              >
-                <div className="relative h-48 overflow-hidden bg-gradient-to-br from-indigo-600/20 to-blue-600/20">
-                  <img
-                    src={destination.image}
-                    alt={destination.name}
-                    className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/0 to-cyan-600/0 group-hover:from-indigo-600/20 group-hover:to-cyan-600/20 transition-all duration-300" />
-                  
-                  <div className="absolute inset-0 flex flex-col justify-between p-4">
-                    <div className="flex justify-end">
-                      <div className="bg-indigo-600/80 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-semibold">
-                        📍 {destination.popularity}
+
+          {/* Featured hero + vertical categories */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
+            {/* Large hero card (left) */}
+            <div className="lg:col-span-3 rounded-3xl overflow-hidden relative border border-white/10 bg-white/3">
+              <HeroCard selectedId={selectedId} categories={CATEGORIES} />
+            </div>
+
+            {/* Vertical categories (right) */}
+            <div className="col-span-1 flex flex-col gap-4 items-stretch">
+                {CATEGORIES.map((cat) => {
+                  const isActive = cat.id === selectedId
+                  return (
+                    <motion.div
+                      key={cat.id}
+                      onMouseEnter={() => setSelectedId(cat.id)}
+                      onFocus={() => setSelectedId(cat.id)}
+                      onMouseLeave={() => setSelectedId(CATEGORIES[0].id)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          navigate(`/app/trips/create?category=${encodeURIComponent(cat.name)}`)
+                        }
+                      }}
+                      className={`relative overflow-hidden rounded-2xl transition-all duration-500 cursor-pointer flex items-center justify-center`}
+                      style={{ height: '220px' }}
+                      initial={{ scale: 1 }}
+                      animate={{ scale: isActive ? 1.05 : 1 }}
+                      transition={{ type: 'spring', stiffness: 250, damping: 20 }}
+                      tabIndex={0}
+                      aria-label={cat.name}
+                    >
+                      <motion.img
+                        src={cat.image}
+                        alt={cat.name}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        initial={{ scale: 1 }}
+                        animate={{ scale: isActive ? 1.08 : 1.0 }}
+                        transition={{ duration: 0.6 }}
+                      />
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent" />
+
+                      <div className="relative z-10 text-white font-bold text-lg tracking-wider flex items-center justify-center" style={{ writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(180deg)' }}>
+                        {cat.name.toUpperCase()}
                       </div>
-                    </div>
-                    <div>
-                      <p className="font-bold text-lg text-white mb-1">{destination.name}</p>
-                      <p className="text-xs text-white/80">{destination.country}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+
+                      <AnimatePresence>
+                        {isActive && (
+                          <motion.div
+                            key={`overlay-${cat.id}`}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-black/30 flex items-end p-4"
+                          >
+                            <div className="text-white">
+                              <div className="text-sm font-semibold">{cat.featured.name}</div>
+                              <div className="text-xs text-white/70">from ₹{cat.featured.price}</div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      <div className="absolute inset-0 rounded-2xl ring-1 ring-white/5" />
+                    </motion.div>
+                  )
+                })}
+            </div>
           </div>
         </section>
 
