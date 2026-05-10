@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Bell, Settings, MapPin, Clock, ArrowRight, Sparkles, TrendingUp, DollarSign, Calendar } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
-import Navbar from '../components/Navbar'
 
 // Categories with multiple sample destinations per category
 type Category = {
@@ -221,7 +220,6 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white overflow-hidden">
-      <Navbar />
       {/* Animated background gradient */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse" />
