@@ -1,236 +1,194 @@
 import React, { useState } from 'react'
-import { Briefcase, Plus, Trash2, Edit2, MapPin, Clock, DollarSign } from 'lucide-react'
+import { Search, Plus, Trash2, ArrowDown } from 'lucide-react'
 
-interface Stop {
+interface ActivityRow {
   id: number
-  city: string
-  startDate: string
-  endDate: string
-  activities: string[]
+  activity: string
+  expense: string
 }
 
+interface Day {
+  id: number
+  label: string
+  rows: ActivityRow[]
+}
+
+const DEFAULT_DAYS: Day[] = [
+  {
+    id: 1,
+    label: 'Day 1',
+    rows: [
+      { id: 1, activity: 'Arrive at Rome Fiumicino Airport, check into hotel', expense: '$0' },
+      { id: 2, activity: 'Lunch at Trastevere neighbourhood', expense: '$35' },
+      { id: 3, activity: 'Evening walk — Colosseum & Roman Forum exterior', expense: '$0' },
+    ],
+  },
+  {
+    id: 2,
+    label: 'Day 2',
+    rows: [
+      { id: 1, activity: 'Vatican Museums & Sistine Chapel guided tour', expense: '$65' },
+      { id: 2, activity: 'St. Peter\'s Basilica & Square', expense: '$0' },
+      { id: 3, activity: 'Dinner near Piazza Navona', expense: '$45' },
+    ],
+  },
+  {
+    id: 3,
+    label: 'Day 3',
+    rows: [
+      { id: 1, activity: 'Colosseum & Palatine Hill skip-the-line tour', expense: '$55' },
+      { id: 2, activity: 'Borghese Gallery visit (pre-booked)', expense: '$30' },
+      { id: 3, activity: 'Trevi Fountain & Spanish Steps stroll', expense: '$0' },
+    ],
+  },
+]
+
 const ItineraryPage: React.FC = () => {
-  const [stops, setStops] = useState<Stop[]>([
-    {
-      id: 1,
-      city: 'Paris',
-      startDate: '2025-06-15',
-      endDate: '2025-06-18',
-      activities: ['Eiffel Tower', 'Louvre Museum', 'River Cruise'],
-    },
-    {
-      id: 2,
-      city: 'Barcelona',
-      startDate: '2025-06-18',
-      endDate: '2025-06-21',
-      activities: ['Sagrada Familia', 'Park Güell', 'Beach Day'],
-    },
-  ])
+  const [days, setDays] = useState<Day[]>(DEFAULT_DAYS)
+  const [search, setSearch] = useState('')
 
-  const [newStop, setNewStop] = useState<Stop>({
-    id: 0,
-    city: '',
-    startDate: '',
-    endDate: '',
-    activities: [],
-  })
+  const updateRow = (dayId: number, rowId: number, field: keyof ActivityRow, value: string) =>
+    setDays(days.map((d) =>
+      d.id === dayId
+        ? { ...d, rows: d.rows.map((r) => r.id === rowId ? { ...r, [field]: value } : r) }
+        : d
+    ))
 
-  const [showAddForm, setShowAddForm] = useState(false)
+  const addRow = (dayId: number) =>
+    setDays(days.map((d) =>
+      d.id === dayId
+        ? { ...d, rows: [...d.rows, { id: Date.now(), activity: '', expense: '' }] }
+        : d
+    ))
 
-  const handleAddStop = () => {
-    if (newStop.city && newStop.startDate && newStop.endDate) {
-      setStops([...stops, { ...newStop, id: Math.max(...stops.map((s) => s.id), 0) + 1 }])
-      setNewStop({ id: 0, city: '', startDate: '', endDate: '', activities: [] })
-      setShowAddForm(false)
-    }
-  }
+  const removeRow = (dayId: number, rowId: number) =>
+    setDays(days.map((d) =>
+      d.id === dayId
+        ? { ...d, rows: d.rows.filter((r) => r.id !== rowId) }
+        : d
+    ))
 
-  const handleRemoveStop = (id: number) => {
-    setStops(stops.filter((stop) => stop.id !== id))
-  }
+  const addDay = () =>
+    setDays([...days, {
+      id: Date.now(),
+      label: `Day ${days.length + 1}`,
+      rows: [{ id: Date.now(), activity: '', expense: '' }],
+    }])
 
-  const calculateDays = (startDate: string, endDate: string) => {
-    if (!startDate || !endDate) return 0
-    const start = new Date(startDate)
-    const end = new Date(endDate)
-    return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24))
-  }
+  const removeDay = (dayId: number) => setDays(days.filter((d) => d.id !== dayId))
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white p-6">
-      {/* Background gradient */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 right-1/3 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/3 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-      </div>
+    <div className="min-h-screen bg-[#0d0d0d] text-[#f0ede8]">
+      <div className="max-w-3xl mx-auto px-6 py-8">
 
-      <div className="relative z-10 max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <Briefcase className="w-8 h-8 text-indigo-400" />
-              <h1 className="text-4xl font-bold">Itinerary Builder</h1>
-            </div>
-            <button
-              onClick={() => setShowAddForm(true)}
-              className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 px-6 py-2 rounded-lg font-semibold transition"
-            >
-              <Plus className="w-5 h-5" /> Add Stop
-            </button>
+        {/* Search + controls */}
+        <div className="flex items-center gap-2 mb-6">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+            <input
+              type="text"
+              placeholder="Search bar ......"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2.5 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-[#f0ede8] placeholder-white/25 focus:outline-none focus:ring-1 focus:ring-[#e8614a]/50 transition"
+            />
           </div>
-          <p className="text-white/60">Create and manage your multi-city itinerary</p>
+          {['Group by', 'Filter', 'Sort by...'].map((label) => (
+            <button key={label} className="px-4 py-2.5 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white/50 hover:text-[#f0ede8] hover:bg-white/10 transition whitespace-nowrap">
+              {label}
+            </button>
+          ))}
         </div>
 
-        {/* Timeline Visualization */}
-        <div className="mb-8">
-          <div className="space-y-4">
-            {stops.map((stop, index) => (
-              <div key={stop.id} className="relative">
-                {/* Timeline connector */}
-                {index < stops.length - 1 && (
-                  <div className="absolute left-6 top-20 w-0.5 h-12 bg-gradient-to-b from-indigo-500 to-cyan-500" />
+        {/* Title */}
+        <h1 className="text-2xl font-bold text-center mb-8">Itinerary for a selected place</h1>
+
+        {/* Days */}
+        <div className="space-y-10">
+          {days.map((day) => (
+            <div key={day.id} className="group/day">
+              {/* Day label */}
+              <div className="flex items-center gap-4 mb-4">
+                <div className="px-4 py-1.5 border border-[#e8614a]/40 rounded-lg text-sm font-semibold text-[#e8614a] bg-[#e8614a]/[0.08]">
+                  {day.label}
+                </div>
+                <div className="flex-1 h-px bg-white/[0.06]" />
+                {days.length > 1 && (
+                  <button
+                    onClick={() => removeDay(day.id)}
+                    className="opacity-0 group-hover/day:opacity-100 text-white/30 hover:text-red-400 transition"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 )}
+              </div>
 
-                {/* Stop card */}
-                <div className="flex gap-4">
-                  {/* Timeline dot */}
-                  <div className="flex flex-col items-center pt-2">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-indigo-500/40">
-                      {index + 1}
-                    </div>
-                  </div>
+              {/* Column headers */}
+              <div className="grid grid-cols-[1fr_160px] gap-4 mb-2 px-1">
+                <span className="text-xs text-[#e8614a]/60 text-center font-medium">Physical Activity</span>
+                <span className="text-xs text-[#e8614a]/60 text-center font-medium">Expense</span>
+              </div>
 
-                  {/* Card */}
-                  <div className="flex-1 bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-indigo-500/50 transition">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-2xl font-bold mb-1">{stop.city}</h3>
-                        <div className="flex items-center gap-4 text-white/70 text-sm">
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-4 h-4" />
-                            {calculateDays(stop.startDate, stop.endDate)} days
-                          </span>
-                          <span>
-                            {new Date(stop.startDate).toLocaleDateString()} -{' '}
-                            {new Date(stop.endDate).toLocaleDateString()}
-                          </span>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => handleRemoveStop(stop.id)}
-                        className="text-white/40 hover:text-red-400 transition"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </div>
-
-                    {/* Activities */}
-                    <div className="mb-4">
-                      <h4 className="text-sm font-semibold text-white/60 mb-2">Activities</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {stop.activities.length > 0 ? (
-                          stop.activities.map((activity, idx) => (
-                            <span key={idx} className="px-3 py-1 bg-indigo-500/20 border border-indigo-500/50 rounded-full text-sm text-indigo-200">
-                              {activity}
-                            </span>
-                          ))
-                        ) : (
-                          <span className="text-white/40 text-sm">No activities added yet</span>
+              {/* Activity rows */}
+              <div className="space-y-1">
+                {day.rows.map((row, idx) => (
+                  <div key={row.id}>
+                    <div className="grid grid-cols-[1fr_160px] gap-4 group/row items-center">
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          value={row.activity}
+                          onChange={(e) => updateRow(day.id, row.id, 'activity', e.target.value)}
+                          placeholder="Enter activity..."
+                          className="w-full px-4 py-2.5 bg-transparent border border-white/[0.10] rounded-lg text-sm text-[#f0ede8] placeholder-white/20 focus:outline-none focus:ring-1 focus:ring-[#e8614a]/40 transition"
+                        />
+                        {day.rows.length > 1 && (
+                          <button
+                            onClick={() => removeRow(day.id, row.id)}
+                            className="opacity-0 group-hover/row:opacity-100 text-white/25 hover:text-red-400 transition flex-shrink-0"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
                         )}
                       </div>
+                      <input
+                        type="text"
+                        value={row.expense}
+                        onChange={(e) => updateRow(day.id, row.id, 'expense', e.target.value)}
+                        placeholder="$0"
+                        className="px-4 py-2.5 bg-transparent border border-white/[0.10] rounded-lg text-sm text-[#f0ede8] placeholder-white/20 focus:outline-none focus:ring-1 focus:ring-[#e8614a]/40 transition text-center"
+                      />
                     </div>
 
-                    {/* Actions */}
-                    <button className="text-white/60 hover:text-indigo-300 transition flex items-center gap-2 text-sm">
-                      <Edit2 className="w-4 h-4" /> Edit
-                    </button>
+                    {/* Arrow connector between rows */}
+                    {idx < day.rows.length - 1 && (
+                      <div className="flex justify-center py-1">
+                        <ArrowDown className="w-4 h-4 text-[#e8614a]/40" />
+                      </div>
+                    )}
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+
+              {/* Add row */}
+              <button
+                onClick={() => addRow(day.id)}
+                className="mt-3 flex items-center gap-1.5 text-xs text-white/30 hover:text-[#e8614a] transition"
+              >
+                <Plus className="w-3.5 h-3.5" /> Add activity
+              </button>
+            </div>
+          ))}
         </div>
 
-        {/* Add Stop Form */}
-        {showAddForm && (
-          <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-            <div className="bg-gray-900 rounded-2xl border border-white/10 max-w-md w-full p-8">
-              <h2 className="text-2xl font-bold mb-6">Add New Stop</h2>
+        {/* Add Day */}
+        <button
+          onClick={addDay}
+          className="mt-10 w-full flex items-center justify-center gap-2 py-3 border border-white/[0.10] rounded-xl text-sm text-white/50 hover:text-[#f0ede8] hover:border-[#e8614a]/40 hover:bg-[#e8614a]/[0.06] transition"
+        >
+          <Plus className="w-4 h-4" /> Add another Day
+        </button>
 
-              <div className="space-y-4 mb-6">
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-white/80">City</label>
-                  <input
-                    type="text"
-                    value={newStop.city}
-                    onChange={(e) => setNewStop({ ...newStop, city: e.target.value })}
-                    placeholder="Enter city name"
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-indigo-500 transition"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold mb-2 text-white/80">Start Date</label>
-                    <input
-                      type="date"
-                      value={newStop.startDate}
-                      onChange={(e) => setNewStop({ ...newStop, startDate: e.target.value })}
-                      className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-indigo-500 transition"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold mb-2 text-white/80">End Date</label>
-                    <input
-                      type="date"
-                      value={newStop.endDate}
-                      onChange={(e) => setNewStop({ ...newStop, endDate: e.target.value })}
-                      className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-indigo-500 transition"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setShowAddForm(false)}
-                  className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleAddStop}
-                  className="flex-1 px-4 py-2 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-semibold rounded-lg transition"
-                >
-                  Add Stop
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Summary */}
-        <div className="mt-12 bg-white/5 border border-white/10 rounded-2xl p-6">
-          <h3 className="text-lg font-bold mb-4">Trip Summary</h3>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-white/5 rounded-lg p-4">
-              <p className="text-white/60 text-sm mb-1">Total Stops</p>
-              <p className="text-3xl font-bold">{stops.length}</p>
-            </div>
-            <div className="bg-white/5 rounded-lg p-4">
-              <p className="text-white/60 text-sm mb-1">Total Days</p>
-              <p className="text-3xl font-bold">
-                {stops.reduce((total, stop) => total + calculateDays(stop.startDate, stop.endDate), 0)}
-              </p>
-            </div>
-            <div className="bg-white/5 rounded-lg p-4">
-              <p className="text-white/60 text-sm mb-1">Total Activities</p>
-              <p className="text-3xl font-bold">{stops.reduce((total, stop) => total + stop.activities.length, 0)}</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   )

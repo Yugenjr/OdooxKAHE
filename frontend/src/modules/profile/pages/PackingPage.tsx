@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CheckSquare, Plus, Trash2, RotateCcw } from 'lucide-react'
+import { Search, ChevronDown, Plus, RotateCcw, Share2, Trash2 } from 'lucide-react'
 
 interface ChecklistItem {
   id: number
@@ -8,163 +8,164 @@ interface ChecklistItem {
   packed: boolean
 }
 
-const CATEGORIES = ['Clothing', 'Documents', 'Electronics', 'Toiletries', 'Miscellaneous']
+const DEFAULT_ITEMS: ChecklistItem[] = [
+  { id: 1, name: 'Passport', category: 'Documents', packed: true },
+  { id: 2, name: 'Flight Tickets (printed)', category: 'Documents', packed: true },
+  { id: 3, name: 'Travel insurance', category: 'Documents', packed: true },
+  { id: 4, name: 'Hotel booking confirmation', category: 'Documents', packed: false },
+  { id: 5, name: 'Casual Shirts', category: 'Clothing', packed: true },
+  { id: 6, name: 'Trousers / jeans', category: 'Clothing', packed: false },
+  { id: 7, name: 'Comfortable walking shoes', category: 'Clothing', packed: false },
+  { id: 8, name: 'Light jacket / windbreaker', category: 'Clothing', packed: false },
+  { id: 9, name: 'Phone charger', category: 'Electronics', packed: true },
+  { id: 10, name: 'Universal power adapter', category: 'Electronics', packed: false },
+  { id: 11, name: 'Earphone / headphones', category: 'Electronics', packed: false },
+]
+
+const CATEGORIES = ['Documents', 'Clothing', 'Electronics']
 
 const PackingPage: React.FC = () => {
-  const [items, setItems] = useState<ChecklistItem[]>([
-    { id: 1, name: 'Passport', category: 'Documents', packed: true },
-    { id: 2, name: 'Travel Insurance', category: 'Documents', packed: true },
-    { id: 3, name: 'Credit Cards', category: 'Documents', packed: false },
-    { id: 4, name: 'Shorts', category: 'Clothing', packed: false },
-    { id: 5, name: 'T-shirts', category: 'Clothing', packed: true },
-    { id: 6, name: 'Phone Charger', category: 'Electronics', packed: true },
-    { id: 7, name: 'Laptop', category: 'Electronics', packed: false },
-    { id: 8, name: 'Toothbrush', category: 'Toiletries', packed: false },
-  ])
-
+  const [items, setItems] = useState<ChecklistItem[]>(DEFAULT_ITEMS)
+  const [search, setSearch] = useState('')
   const [newItem, setNewItem] = useState('')
-  const [newCategory, setNewCategory] = useState('Miscellaneous')
+  const [newCategory, setNewCategory] = useState('Documents')
 
-  const handleAddItem = () => {
-    if (newItem.trim()) {
-      setItems([...items, { id: Math.max(...items.map((i) => i.id), 0) + 1, name: newItem, category: newCategory, packed: false }])
-      setNewItem('')
-    }
+  const toggle = (id: number) => setItems(items.map((i) => i.id === id ? { ...i, packed: !i.packed } : i))
+  const remove = (id: number) => setItems(items.filter((i) => i.id !== id))
+  const reset = () => setItems(items.map((i) => ({ ...i, packed: false })))
+
+  const handleAdd = () => {
+    if (!newItem.trim()) return
+    setItems([...items, { id: Date.now(), name: newItem.trim(), category: newCategory, packed: false }])
+    setNewItem('')
   }
 
-  const handleTogglePacked = (id: number) => {
-    setItems(items.map((item) => (item.id === id ? { ...item, packed: !item.packed } : item)))
-  }
+  const packedCount = items.filter((i) => i.packed).length
+  const pct = items.length ? (packedCount / items.length) * 100 : 0
 
-  const handleRemoveItem = (id: number) => {
-    setItems(items.filter((item) => item.id !== id))
-  }
-
-  const handleReset = () => {
-    setItems(items.map((item) => ({ ...item, packed: false })))
-  }
-
-  const packedCount = items.filter((item) => item.packed).length
-  const packedPercentage = (packedCount / items.length) * 100
-
-  const groupedItems = CATEGORIES.reduce(
-    (acc, category) => {
-      acc[category] = items.filter((item) => item.category === category)
-      return acc
-    },
-    {} as Record<string, ChecklistItem[]>
-  )
+  const filtered = (cat: string) =>
+    items.filter((i) => i.category === cat && i.name.toLowerCase().includes(search.toLowerCase()))
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white p-6">
-      {/* Background gradient */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-      </div>
+    <div className="min-h-screen bg-[#0d0d0d] text-[#f0ede8]">
+      <div className="max-w-3xl mx-auto px-6 py-8">
 
-      <div className="relative z-10 max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <CheckSquare className="w-8 h-8 text-green-400" />
-              <h1 className="text-4xl font-bold">Packing Checklist</h1>
-            </div>
-            <button
-              onClick={handleReset}
-              className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition"
-            >
-              <RotateCcw className="w-4 h-4" /> Reset
-            </button>
-          </div>
-          <p className="text-white/60">Make sure you don't forget anything!</p>
-        </div>
-
-        {/* Progress */}
-        <div className="mb-8 bg-white/5 border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-3">
-            <span className="font-semibold">Packing Progress</span>
-            <span className="text-2xl font-bold text-indigo-300">
-              {packedCount} / {items.length}
-            </span>
-          </div>
-          <div className="relative h-4 bg-white/10 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-indigo-600 to-cyan-600 transition-all"
-              style={{ width: `${packedPercentage}%` }}
-            />
-          </div>
-          <p className="text-white/60 text-sm mt-2">{Math.round(packedPercentage)}% complete</p>
-        </div>
-
-        {/* Add Item Form */}
-        <div className="mb-8 bg-white/5 border border-white/10 rounded-2xl p-6">
-          <h2 className="font-semibold mb-4">Add New Item</h2>
-          <div className="flex flex-col sm:flex-row gap-3">
+        {/* Search + controls */}
+        <div className="flex items-center gap-2 mb-6">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
             <input
               type="text"
-              value={newItem}
-              onChange={(e) => setNewItem(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleAddItem()}
-              placeholder="What do you need to pack?"
-              className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-indigo-500 transition"
+              placeholder="Search bar ......"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2.5 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-[#f0ede8] placeholder-white/25 focus:outline-none focus:ring-1 focus:ring-[#e8614a]/50 transition"
             />
-            <select
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
-              className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-indigo-500 transition"
-            >
-              {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat} className="bg-gray-900">
-                  {cat}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={handleAddItem}
-              className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 rounded-lg font-semibold flex items-center gap-2 transition"
-            >
-              <Plus className="w-4 h-4" /> Add
+          </div>
+          {['Group by', 'Filter', 'Sort by...'].map((label) => (
+            <button key={label} className="px-4 py-2.5 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white/50 hover:text-[#f0ede8] hover:bg-white/10 transition whitespace-nowrap">
+              {label}
             </button>
+          ))}
+        </div>
+
+        {/* Title */}
+        <h1 className="text-2xl font-bold mb-4">Packing checklist</h1>
+
+        {/* Trip selector */}
+        <button className="flex items-center gap-2 px-4 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white/60 hover:text-[#f0ede8] transition mb-4">
+          <span>Trip: Paris & Rome Adventure</span>
+          <ChevronDown className="w-4 h-4" />
+        </button>
+
+        {/* Progress */}
+        <div className="mb-6">
+          <p className="text-sm text-white/50 mb-2">Progress: {packedCount}/{items.length} items packed</p>
+          <div className="h-2 bg-white/[0.08] rounded-full overflow-hidden">
+            <div
+              className="h-full bg-[#e8614a] rounded-full transition-all duration-500"
+              style={{ width: `${pct}%` }}
+            />
           </div>
         </div>
 
-        {/* Checklist by Category */}
-        <div className="space-y-6">
-          {CATEGORIES.map((category) => (
-            <div key={category}>
-              <h3 className="text-lg font-bold mb-3 text-indigo-300">{category}</h3>
-              <div className="space-y-2">
-                {groupedItems[category] && groupedItems[category].length > 0 ? (
-                  groupedItems[category].map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex items-center gap-3 p-4 bg-white/5 border border-white/10 rounded-lg hover:border-indigo-500/50 transition"
-                    >
+        {/* Categories */}
+        <div className="space-y-4 mb-6">
+          {CATEGORIES.map((cat) => {
+            const catItems = filtered(cat)
+            const catPacked = catItems.filter((i) => i.packed).length
+            if (catItems.length === 0 && search) return null
+            return (
+              <div key={cat}>
+                {/* Category header */}
+                <div className="flex items-center justify-between px-3 py-2 bg-white/[0.06] border border-white/[0.08] rounded-lg mb-2">
+                  <span className="text-sm font-semibold text-[#f0ede8]">{cat}</span>
+                  <span className="text-xs text-white/40">{catPacked}/{catItems.length}</span>
+                </div>
+
+                {/* Items */}
+                <div className="space-y-1 pl-1">
+                  {catItems.map((item) => (
+                    <div key={item.id} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/[0.04] group transition">
                       <input
                         type="checkbox"
                         checked={item.packed}
-                        onChange={() => handleTogglePacked(item.id)}
-                        className="w-5 h-5 rounded accent-indigo-500 cursor-pointer"
+                        onChange={() => toggle(item.id)}
+                        className="w-4 h-4 rounded cursor-pointer accent-[#e8614a] flex-shrink-0"
                       />
-                      <span className={`flex-1 font-medium ${item.packed ? 'line-through text-white/40' : 'text-white'}`}>
+                      <span className={`flex-1 text-sm ${item.packed ? 'line-through text-white/30' : 'text-white/80'}`}>
                         {item.name}
                       </span>
                       <button
-                        onClick={() => handleRemoveItem(item.id)}
-                        className="text-white/40 hover:text-red-400 transition"
+                        onClick={() => remove(item.id)}
+                        className="opacity-0 group-hover:opacity-100 text-white/30 hover:text-red-400 transition"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
-                  ))
-                ) : (
-                  <p className="text-white/40 text-sm p-4">No items in this category yet</p>
-                )}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
+        </div>
+
+        {/* Add item inline */}
+        <div className="flex gap-2 mb-6">
+          <input
+            type="text"
+            placeholder="New item name"
+            value={newItem}
+            onChange={(e) => setNewItem(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
+            className="flex-1 px-4 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-[#f0ede8] placeholder-white/25 focus:outline-none focus:ring-1 focus:ring-[#e8614a]/50 transition"
+          />
+          <select
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.target.value)}
+            className="px-3 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white/60 focus:outline-none focus:ring-1 focus:ring-[#e8614a]/50 transition"
+          >
+            {CATEGORIES.map((c) => <option key={c} value={c} className="bg-[#141414]">{c}</option>)}
+          </select>
+        </div>
+
+        {/* Bottom actions */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleAdd}
+            className="flex items-center gap-2 px-5 py-2.5 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white/60 hover:text-[#f0ede8] hover:bg-white/10 transition"
+          >
+            <Plus className="w-4 h-4" /> add item to checklist
+          </button>
+          <button
+            onClick={reset}
+            className="flex items-center gap-2 px-5 py-2.5 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white/60 hover:text-[#f0ede8] hover:bg-white/10 transition"
+          >
+            <RotateCcw className="w-4 h-4" /> Reset all
+          </button>
+          <button className="flex items-center gap-2 px-5 py-2.5 bg-[#e8614a] hover:bg-[#d4503a] rounded-lg text-sm font-semibold transition ml-auto">
+            <Share2 className="w-4 h-4" /> Share checklist
+          </button>
         </div>
       </div>
     </div>

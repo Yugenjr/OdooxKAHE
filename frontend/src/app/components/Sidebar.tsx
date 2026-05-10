@@ -94,7 +94,6 @@ const NAV_ITEMS: NavItem[] = [
 const Sidebar: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const user = useAuthStore((state) => state.user)
   const logout = useAuthStore((state) => state.logout)
   const [isOpen, setIsOpen] = useState(true)
   const [expandedItems, setExpandedItems] = useState<string[]>([])
@@ -126,39 +125,30 @@ const Sidebar: React.FC = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 left-4 z-50 lg:hidden bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-lg transition"
+        className="fixed top-4 left-4 z-50 lg:hidden bg-[#e8614a] hover:bg-[#d4503a] text-white p-2 rounded-lg transition"
       >
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-gradient-to-b from-black to-gray-900 border-r border-white/10 transform transition-transform duration-300 ease-in-out z-40 lg:translate-x-0 ${
+        className={`fixed left-0 top-0 h-screen w-64 bg-[#0d0d0d] border-r border-white/[0.07] transform transition-transform duration-300 ease-in-out z-40 lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Header */}
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white text-lg font-bold shadow-lg shadow-indigo-500/40">
+            <div className="w-10 h-10 rounded-lg bg-[#e8614a] flex items-center justify-center text-white text-lg font-bold">
               T
             </div>
             <div>
-              <h1 className="text-xl font-bold text-cyan-300">Traveloop</h1>
+              <h1 className="text-xl font-bold text-[#f0ede8] tracking-wide">Traveloop</h1>
               <p className="text-white/40 text-xs">Travel Planner</p>
             </div>
           </div>
 
-          {/* User Profile */}
-          <div className="flex items-center gap-3 mt-4 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition cursor-pointer">
-            <div className="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">
-              {user?.name?.charAt(0).toUpperCase() || 'U'}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-white font-semibold text-sm truncate">{user?.name || 'User'}</p>
-              <p className="text-white/40 text-xs truncate">{user?.email || 'user@example.com'}</p>
-            </div>
-          </div>
+
         </div>
 
         {/* Navigation Items */}
@@ -175,8 +165,8 @@ const Sidebar: React.FC = () => {
                 }}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition ${
                   isActive(item.path) && !item.children
-                    ? 'bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-lg shadow-indigo-500/30'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                    ? 'bg-[#e8614a]/15 text-[#e8614a] border border-[#e8614a]/30'
+                    : 'text-white/60 hover:text-white hover:bg-white/[0.06] border border-transparent'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -201,8 +191,8 @@ const Sidebar: React.FC = () => {
                       onClick={() => handleNavigate(child.path)}
                       className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition text-sm ${
                         isActive(child.path)
-                          ? 'bg-cyan-600/20 text-cyan-300 border-l-2 border-cyan-500'
-                          : 'text-white/60 hover:text-white hover:bg-white/5'
+                          ? 'text-[#e8614a] border-l-2 border-[#e8614a]'
+                          : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
                       }`}
                     >
                       {child.icon}
@@ -219,7 +209,7 @@ const Sidebar: React.FC = () => {
         <div className="p-4 border-t border-white/10 space-y-2">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white hover:bg-red-600/20 transition"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.06] transition"
           >
             <LogOut className="w-5 h-5" />
             <span className="font-medium">Logout</span>

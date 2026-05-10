@@ -1,172 +1,119 @@
 import React, { useState } from 'react'
-import { DollarSign, TrendingUp, AlertCircle, PieChart } from 'lucide-react'
+import { Plus, Trash2 } from 'lucide-react'
 
-interface BudgetCategory {
-  name: string
-  budget: number
-  spent: number
-  color: string
+interface Section {
+  id: number
+  title: string
+  description: string
+  dateRange: string
+  budget: string
 }
 
+const DEFAULT_SECTIONS: Section[] = [
+  {
+    id: 1,
+    title: 'Section 1:',
+    description: 'Flight — Paris to Rome\nRound-trip economy class tickets for 2 passengers. Includes checked baggage and in-flight meals.',
+    dateRange: 'Jun 15 to Jun 22',
+    budget: '$480',
+  },
+  {
+    id: 2,
+    title: 'Section 2:',
+    description: 'Hotel — Rome City Centre\n4-star hotel stay for 5 nights near the Colosseum. Breakfast included, free cancellation until Jun 10.',
+    dateRange: 'Jun 22 to Jun 27',
+    budget: '$750',
+  },
+  {
+    id: 3,
+    title: 'Section 3:',
+    description: 'Activities & Sightseeing\nVatican Museums, Colosseum guided tour, Borghese Gallery. Pre-booked skip-the-line tickets.',
+    dateRange: 'Jun 23 to Jun 26',
+    budget: '$210',
+  },
+]
+
 const BudgetPage: React.FC = () => {
-  const [categories, setCategories] = useState<BudgetCategory[]>([
-    { name: 'Accommodation', budget: 1500, spent: 1200, color: 'indigo' },
-    { name: 'Transportation', budget: 800, spent: 650, color: 'cyan' },
-    { name: 'Activities', budget: 600, spent: 400, color: 'blue' },
-    { name: 'Food & Dining', budget: 900, spent: 950, color: 'purple' },
-    { name: 'Shopping', budget: 500, spent: 300, color: 'pink' },
-  ])
+  const [sections, setSections] = useState<Section[]>(DEFAULT_SECTIONS)
 
-  const totalBudget = categories.reduce((sum, cat) => sum + cat.budget, 0)
-  const totalSpent = categories.reduce((sum, cat) => sum + cat.spent, 0)
-  const remainingBudget = totalBudget - totalSpent
-  const percentageSpent = (totalSpent / totalBudget) * 100
+  const update = (id: number, field: keyof Section, value: string) =>
+    setSections(sections.map((s) => s.id === id ? { ...s, [field]: value } : s))
 
-  const isOverBudget = totalSpent > totalBudget
+  const addSection = () =>
+    setSections([...sections, {
+      id: Date.now(),
+      title: `Section ${sections.length + 1}:`,
+      description: 'Add details about this section — transport, accommodation, or activity.\nInclude any important notes or booking references here.',
+      dateRange: '',
+      budget: '',
+    }])
+
+  const remove = (id: number) => setSections(sections.filter((s) => s.id !== id))
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white p-6">
-      {/* Background gradient */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 left-1/3 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-green-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-      </div>
+    <div className="min-h-screen bg-[#0d0d0d] text-[#f0ede8]">
+      <div className="max-w-2xl mx-auto px-6 py-10 space-y-4">
 
-      <div className="relative z-10 max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <DollarSign className="w-8 h-8 text-green-400" />
-            <h1 className="text-4xl font-bold">Budget & Cost Breakdown</h1>
+        {sections.map((section) => (
+          <div key={section.id} className="border border-white/[0.10] rounded-2xl p-6 group hover:border-white/[0.16] transition">
+
+            {/* Title */}
+            <div className="flex items-center justify-between mb-3">
+              <input
+                type="text"
+                value={section.title}
+                onChange={(e) => update(section.id, 'title', e.target.value)}
+                className="text-base font-bold bg-transparent text-[#f0ede8] focus:outline-none w-full"
+              />
+              {sections.length > 1 && (
+                <button
+                  onClick={() => remove(section.id)}
+                  className="opacity-0 group-hover:opacity-100 text-white/25 hover:text-red-400 transition ml-2 flex-shrink-0"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            {/* Description */}
+            <textarea
+              value={section.description}
+              onChange={(e) => update(section.id, 'description', e.target.value)}
+              rows={2}
+              className="w-full bg-transparent text-white/50 text-sm focus:outline-none resize-none mb-5 leading-relaxed"
+            />
+
+            {/* Date Range + Budget — pill bordered inputs */}
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={section.dateRange}
+                onChange={(e) => update(section.id, 'dateRange', e.target.value)}
+                placeholder="Date Range:   xxx to yyy"
+                className="w-48 px-4 py-2 bg-transparent border border-white/[0.15] rounded-lg text-sm text-white/70 placeholder-white/30 focus:outline-none focus:border-[#e8614a]/50 transition"
+              />
+              <input
+                type="text"
+                value={section.budget}
+                onChange={(e) => update(section.id, 'budget', e.target.value)}
+                placeholder="Budget of this section"
+                className="flex-1 px-4 py-2 bg-transparent border border-white/[0.15] rounded-lg text-sm text-white/70 placeholder-white/30 focus:outline-none focus:border-[#e8614a]/50 transition text-center"
+              />
+            </div>
           </div>
-          <p className="text-white/60">Track your trip expenses and stay within budget</p>
+        ))}
+
+        {/* Add another Section */}
+        <div className="flex justify-center pt-2">
+          <button
+            onClick={addSection}
+            className="flex items-center gap-2 px-8 py-3 border border-white/[0.12] rounded-xl text-sm text-white/60 hover:text-[#f0ede8] hover:border-[#e8614a]/40 hover:bg-[#e8614a]/[0.06] transition"
+          >
+            <Plus className="w-4 h-4" />
+            Add another Section
+          </button>
         </div>
 
-        {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          {/* Total Budget */}
-          <div className="bg-gradient-to-br from-indigo-600/20 to-indigo-600/5 border border-indigo-500/30 rounded-2xl p-6">
-            <div className="text-white/60 text-sm font-semibold mb-2">Total Budget</div>
-            <div className="text-3xl font-bold mb-1">${totalBudget.toLocaleString()}</div>
-            <div className="text-white/40 text-xs">for entire trip</div>
-          </div>
-
-          {/* Total Spent */}
-          <div className="bg-gradient-to-br from-cyan-600/20 to-cyan-600/5 border border-cyan-500/30 rounded-2xl p-6">
-            <div className="text-white/60 text-sm font-semibold mb-2">Total Spent</div>
-            <div className="text-3xl font-bold mb-1">${totalSpent.toLocaleString()}</div>
-            <div className="text-white/40 text-xs">{percentageSpent.toFixed(1)}% of budget</div>
-          </div>
-
-          {/* Remaining */}
-          <div className={`rounded-2xl p-6 ${isOverBudget ? 'bg-gradient-to-br from-red-600/20 to-red-600/5 border border-red-500/30' : 'bg-gradient-to-br from-green-600/20 to-green-600/5 border border-green-500/30'}`}>
-            <div className="text-white/60 text-sm font-semibold mb-2">Remaining Budget</div>
-            <div className={`text-3xl font-bold mb-1 ${isOverBudget ? 'text-red-400' : 'text-green-400'}`}>
-              ${Math.abs(remainingBudget).toLocaleString()}
-            </div>
-            <div className="text-white/40 text-xs">{isOverBudget ? 'Over budget' : 'left to spend'}</div>
-          </div>
-
-          {/* Per Day Average */}
-          <div className="bg-gradient-to-br from-purple-600/20 to-purple-600/5 border border-purple-500/30 rounded-2xl p-6">
-            <div className="text-white/60 text-sm font-semibold mb-2">Per Day Average</div>
-            <div className="text-3xl font-bold mb-1">${(totalSpent / 10).toFixed(0)}</div>
-            <div className="text-white/40 text-xs">based on 10 days</div>
-          </div>
-        </div>
-
-        {/* Alert if over budget */}
-        {isOverBudget && (
-          <div className="mb-8 bg-red-600/20 border border-red-500/50 rounded-2xl p-4 flex items-center gap-3">
-            <AlertCircle className="w-6 h-6 text-red-400 flex-shrink-0" />
-            <div>
-              <p className="font-semibold text-red-300">Over Budget Alert</p>
-              <p className="text-red-200/80 text-sm">
-                You've exceeded your budget by ${(totalSpent - totalBudget).toLocaleString()}. Consider adjusting your spending or increasing your budget.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Budget Categories */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Categories List */}
-          <div>
-            <h2 className="text-xl font-bold mb-4">Breakdown by Category</h2>
-            <div className="space-y-4">
-              {categories.map((category, idx) => {
-                const categoryPercentage = (category.spent / category.budget) * 100
-                const isOver = category.spent > category.budget
-
-                return (
-                  <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-4 hover:border-white/20 transition">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold">{category.name}</h3>
-                      <span className={`text-sm font-bold ${isOver ? 'text-red-400' : 'text-green-400'}`}>
-                        ${category.spent} / ${category.budget}
-                      </span>
-                    </div>
-
-                    {/* Progress bar */}
-                    <div className="relative h-3 bg-white/10 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all ${
-                          isOver ? 'bg-gradient-to-r from-red-600 to-red-400' : 'bg-gradient-to-r from-indigo-600 to-cyan-600'
-                        }`}
-                        style={{ width: `${Math.min(categoryPercentage, 100)}%` }}
-                      />
-                    </div>
-
-                    <div className="flex items-center justify-between mt-2 text-xs text-white/60">
-                      <span>{categoryPercentage.toFixed(0)}% spent</span>
-                      <span>${(category.budget - category.spent).toLocaleString()} remaining</span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Pie Chart Alternative - Simple visual */}
-          <div className="flex flex-col items-center justify-center bg-white/5 border border-white/10 rounded-2xl p-8">
-            <PieChart className="w-12 h-12 text-indigo-400 mb-4" />
-            <h2 className="text-xl font-bold mb-6">Expense Distribution</h2>
-
-            <div className="w-full space-y-3">
-              {categories.map((category, idx) => {
-                const percentage = (category.spent / totalSpent) * 100
-                return (
-                  <div key={idx} className="flex items-center gap-3">
-                    <div className={`w-4 h-4 rounded-full bg-${category.color}-600`} />
-                    <span className="text-sm flex-1">{category.name}</span>
-                    <span className="font-semibold text-sm">{percentage.toFixed(1)}%</span>
-                  </div>
-                )
-              })}
-            </div>
-
-            <div className="mt-8 p-4 bg-white/5 rounded-lg w-full text-center">
-              <p className="text-white/60 text-xs mb-1">Current Trend</p>
-              <p className="text-lg font-bold text-indigo-300 flex items-center justify-center gap-2">
-                <TrendingUp className="w-5 h-5" />
-                {percentageSpent > 75 ? 'High spending' : percentageSpent > 50 ? 'Moderate spending' : 'Low spending'}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Tips */}
-        <div className="bg-gradient-to-r from-indigo-600/10 to-cyan-600/10 border border-indigo-500/30 rounded-2xl p-6">
-          <h3 className="font-bold mb-3 flex items-center gap-2">
-            <AlertCircle className="w-5 h-5 text-indigo-400" />
-            Budget Tips
-          </h3>
-          <ul className="space-y-2 text-sm text-white/80">
-            <li>✓ Food & Dining is 25% over budget - consider cooking some meals</li>
-            <li>✓ Transportation savings are helping offset other expenses</li>
-            <li>✓ Still time to adjust spending on shopping and activities</li>
-          </ul>
-        </div>
       </div>
     </div>
   )

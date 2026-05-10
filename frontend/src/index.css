@@ -4,7 +4,8 @@
 @tailwind utilities;
 
 @theme {
-  --color-primary: #3b82f6;
+  --color-primary: #e8614a;
+  --color-accent: #e8614a;
 }
 
 html,
@@ -19,6 +20,6 @@ body,
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: #0d0d0d;
+  color: #f0ede8;
 }
