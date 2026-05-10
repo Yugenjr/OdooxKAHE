@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search, Bell, Settings, MapPin, Clock, ArrowRight, Sparkles, TrendingUp, DollarSign, Calendar } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
+import Navbar from '../components/Navbar'
 
 const RECOMMENDED_DESTINATIONS = [
   {
@@ -110,6 +111,7 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white overflow-hidden">
+      <Navbar />
       {/* Animated background gradient */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse" />
@@ -117,92 +119,8 @@ export const DashboardPage: React.FC = () => {
         <div className="absolute top-1/2 right-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
-      {/* Header */}
-      <header className="relative z-20 sticky top-0">
-        {/* Gradient border */}
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
-        
-        <div className="bg-[#050505]/50 backdrop-blur-2xl border-b border-white/5">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              {/* Logo and Brand */}
-              <div className="flex items-center space-x-4 group cursor-pointer">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-cyan-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="relative w-12 h-12 bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-500 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg shadow-indigo-500/50">
-                    T
-                  </div>
-                </div>
-                <div className="hidden sm:block">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-indigo-300 via-blue-300 to-cyan-300 bg-clip-text text-transparent group-hover:from-indigo-200 group-hover:via-blue-200 group-hover:to-cyan-200 transition-all duration-300">Traveloop</span>
-                  <p className="text-xs text-white/40 group-hover:text-white/60 transition-colors">Premium Travel Platform</p>
-                </div>
-              </div>
+      
 
-              {/* Center Navigation */}
-              <div className="hidden md:flex items-center space-x-8">
-                <a href="#" className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
-                  <span>Explore</span>
-                  <span className="w-1 h-1 bg-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
-                <a href="#" className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
-                  <span>My Trips</span>
-                  <span className="w-1 h-1 bg-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
-                <a href="#" className="text-white/70 hover:text-white transition-colors duration-300 font-medium text-sm flex items-center gap-2 group">
-                  <span>Inspiration</span>
-                  <span className="w-1 h-1 bg-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
-              </div>
-
-              {/* Right Actions */}
-              <div className="flex items-center space-x-2">
-                {/* Notifications */}
-                <button className="relative p-3 hover:bg-white/10 rounded-lg transition-all duration-300 group">
-                  <Bell className="w-5 h-5 text-white/70 group-hover:text-white group-hover:text-indigo-400 transition-colors" />
-                  <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                </button>
-
-                {/* Divider */}
-                <div className="w-px h-6 bg-white/10 mx-1" />
-
-                {/* Settings */}
-                <button className="p-3 hover:bg-white/10 rounded-lg transition-all duration-300 group">
-                  <Settings className="w-5 h-5 text-white/70 group-hover:text-white group-hover:text-indigo-400 transition-colors" />
-                </button>
-
-                {/* Profile Menu */}
-                <button className="relative ml-2 p-2 hover:bg-white/10 rounded-lg transition-all duration-300 group">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-lg flex items-center justify-center text-xs font-bold group-hover:shadow-lg group-hover:shadow-indigo-500/50 transition-all">
-                      {user?.name?.charAt(0).toUpperCase() || 'U'}
-                    </div>
-                    <div className="hidden sm:flex flex-col items-start text-xs">
-                      <span className="font-semibold text-white group-hover:text-indigo-300 transition-colors">{user?.name || 'User'}</span>
-                      <span className="text-white/50 text-xs">Premium</span>
-                    </div>
-                  </div>
-                  <div className="absolute top-full right-0 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm py-2 min-w-max shadow-xl">
-                    <button className="block w-full text-left px-4 py-2 text-sm text-white/70 hover:text-white hover:bg-white/5 transition-all">
-                      Profile
-                    </button>
-                    <button className="block w-full text-left px-4 py-2 text-sm text-white/70 hover:text-white hover:bg-white/5 transition-all">
-                      Preferences
-                    </button>
-                    <div className="h-px bg-white/10 my-2" />
-                    <button className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all">
-                      Logout
-                    </button>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Accent line animation */}
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent opacity-50" />
-      </header>
 
       {/* Main Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-12">
