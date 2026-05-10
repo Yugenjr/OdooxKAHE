@@ -5,8 +5,10 @@ Welcome to OdooxKAHE — a modern travel planning web application focused on dis
 Quick links
 
 - [Overview](docs/overview.md)
+- [Architecture](docs/architecture.md)
 - [Backend](docs/backend.md)
 - [Frontend](docs/frontend.md)
+- [Pages & Flows](docs/pages-flow.md)
 - [Development & Run](docs/development.md)
 
 Purpose

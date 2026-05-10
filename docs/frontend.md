@@ -23,6 +23,27 @@ Component responsibilities
 - `Sidebar`, `Navbar` (components): persistent navigation and quick access to trips and profile.
 - `services/apiService.ts`: unified API client used across pages.
 
+Persistent navigation (Navbar & Sidebar)
+
+Every page is wrapped in a layout that includes the Navbar at the top and an optional Sidebar for quick navigation:
+
+```mermaid
+graph LR
+  Navbar[Navbar]
+  Sidebar[Sidebar]
+
+  Navbar --> Search[Search]
+  Navbar --> MyTrips[My Trips]
+  Navbar --> Profile[Profile]
+  Navbar --> Dashboard[Dashboard]
+
+  Sidebar --> MyTrips
+  Sidebar --> Builder[Trip Builder]
+  Sidebar --> Itinerary[Itinerary]
+```
+
+This allows users to jump between major sections without losing their current work.
+
 User logical flow (page-to-page navigation)
 
 The diagram below models common user journeys and conditional transitions (e.g., auth required):

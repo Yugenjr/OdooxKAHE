@@ -101,9 +101,65 @@ flowchart TD
 
 Caption: Offers multiple export paths; share links may be shortened and tracked for analytics.
 
+## 6 — Detailed User Journey: Landing → Trip Saved
+
+```mermaid
+flowchart TD
+  L[Landing] -->|Explore| S[Search]
+  L -->|Discover Cities| C[City Search]
+
+  S --> D[Activity Detail]
+  C --> D
+
+  D -->|Try Add to Trip| CheckAuth{Logged in?}
+
+  CheckAuth -->|No| Login[Login / Signup]
+  CheckAuth -->|Yes| Builder[Trip Builder]
+
+  Login -->|Redirect back| Builder
+
+  Builder -->|Organize| Itin[Itinerary]
+
+  Itin -->|Save| MyTrips[My Trips]
+
+  MyTrips -->|Edit| Builder
+  MyTrips -->|View| Itin
+
+  MyTrips --> Profile[Profile / Notes]
+  Profile --> MyTrips
+```
+
+Caption: Complete user journey from discovery to saved trip. Authentication gates the builder, and users can revisit trips to edit or view details.
+
+## 7 — Trip Builder Detailed Operations
+
+```mermaid
+flowchart TD
+  Start[Open Trip Builder]
+
+  Start --> LoadTrip[Load Existing Trip or Create New]
+
+  LoadTrip --> AddActivity[Add Activity]
+
+  AddActivity --> ChooseDay[Select Day]
+  ChooseDay --> ChooseTime[Select Time Slot]
+
+  ChooseTime --> SaveTemp[Optimistic UI Update]
+
+  SaveTemp --> SyncAPI[Sync with Backend]
+
+  SyncAPI -->|Success| Continue
+  SyncAPI -->|Fail| Rollback[Undo Changes]
+
+  Continue --> Reorder[Drag & Drop Reorder]
+  Reorder --> SaveFinal[Save Itinerary]
+
+  SaveFinal --> ItineraryPage[Go to Itinerary]
+```
+
+Caption: The Trip Builder supports loading, adding, reordering activities with optimistic updates, and syncing changes to the backend. Failures trigger rollback.
+
 ---
 
-If you'd like, I can:
-
-- Add per-page swimlanes showing which component owns which actions, or
-- Generate an ER/data-contract diagram for backend resources referenced by each page.
+See [Architecture](architecture.md) for app structure and component hierarchy.
+See [Frontend](frontend.md) for page responsibilities and UI patterns.
