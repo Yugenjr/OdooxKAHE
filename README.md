@@ -1,229 +1,130 @@
-# Traveloop — Smart Travel Planning Platform
+# OdooxKAHE
 
-Traveloop is a modern travel planning web application designed to help users discover destinations, manage trips, track budgets, and organize travel experiences with a beautiful interactive UI.
+Welcome to OdooxKAHE — a modern travel planning web application focused on discovery, trip creation, and sharable itineraries.
 
-Built using React, TypeScript, Tailwind CSS, Framer Motion, and Vite, Traveloop provides a smooth and premium user experience for travel enthusiasts.
+## Documentation
 
----
+Comprehensive documentation organized into 5 sections:
 
-#  Features
+| File | Purpose |
+|------|---------|
+| **[README.md](README.md)** | Project overview, features, quick start |
+| **[architecture.md](docs/architecture.md)** | System design, tech stack, high-level architecture |
+| **[frontend.md](docs/frontend.md)** | React structure, pages, components, flows |
+| **[backend.md](docs/backend.md)** | Services, controllers, database schema, auth *template* |
+| **[API.md](docs/API.md)** | REST endpoints, requests/responses, auth *template* |
 
-##  Trip Management
+**New to the project?** Start with:
+1. Read [architecture.md](docs/architecture.md) for high-level overview
+2. Follow [Getting Started](#-getting-started) to set up locally
+3. Explore [frontend.md](docs/frontend.md) to understand the UI layer
 
-* Create new trips
-* Edit existing trips
-* Delete trips
-* View trip details
-* Filter trips by status
-* Beautiful animated trip cards
+**Working on the backend?** Fill in [backend.md](docs/backend.md) and [API.md](docs/API.md) with your actual implementation
 
-##  City Explorer
+## About the Project
 
-* Search cities dynamically
-* Filter cities by budget
-* Add cities to trips
-* Indian city support
-* Tamil Nadu destinations included
-* Interactive city detail modal
-* Estimated budget calculations in Indian Rupees
+OdooxKAHE helps users discover activities, build multi-day itineraries, and share trips with friends. The platform combines a responsive React frontend with a Node.js backend to provide a seamless travel planning experience.
 
-##  Budget Planner
+**Built with:**
+- Frontend: Vite + React + TypeScript
+- Backend: Node.js (Express)
+- State Management: React Query / QueryProvider
 
-* Budget breakdown by category
-* Expense tracking
-* Add/Edit/Delete budgets
-* Progress bars and analytics
-* Budget alerts
-* Indian currency formatting
-* Expense distribution visualization
+## High-Level Architecture
 
-##  Premium UI/UX
+```mermaid
+flowchart TD
+  subgraph Frontend
+    F1[Landing and Search]
+    F2[Trip Builder]
+    F3[Profile and Saved Trips]
+  end
 
-* Glassmorphism design
-* Responsive layout
-* Smooth animations using Framer Motion
-* Modern gradients and shadows
-* Mobile-friendly design
-* Dark futuristic theme
+  subgraph Backend
+    B1[API Layer]
+    B2[Auth Service]
+    B3[Trip Service]
+  end
 
----
-
-#  Tech Stack
-
-## Frontend
-
-* React
-* TypeScript
-* Vite
-* Tailwind CSS
-* Framer Motion
-* Lucide React Icons
-
-## State Management
-
-* React Hooks
-* Zustand Store
-
-## Routing
-
-* React Router DOM
-
----
-
-#  Project Structure
-
-```bash
-src/
-│
-├── components/
-├── modules/
-│   ├── trips/
-│   ├── budgets/
-│   ├── city-search/
-│   └── dashboard/
-│
-├── store/
-├── routes/
-├── assets/
-└── utils/
+  User --> F1
+  F1 --> F2
+  F2 -->|REST or GraphQL| B1
+  B1 --> B2
+  B1 --> B3
+  B3 --> DB[(Database or External APIs)]
 ```
 
----
+## User Journey
 
-#  Installation
-
-## 1️ Clone Repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+```mermaid
+flowchart LR
+  A[User] --> B[Search Activities]
+  B --> C[Select and Add to Trip]
+  C --> D[Organize Day by Day]
+  D --> E[Save and Share]
 ```
 
----
+## Key Features
 
-## 2️ Move into Project Folder
+- **Discovery** — Search and browse activities by city, category, or keyword
+- **Trip Builder** — Compose itineraries with drag-and-drop day organization
+- **Optimistic UI** — Changes appear instantly with background sync
+- **Save & Share** — Export as PDF or create shareable links
+- **User Accounts** — Manage trips, packing lists, and shared itineraries
 
-```bash
-cd OdooxKAHE/frontend
+## Project Structure
+
+```
+frontend/          # React UI (Vite, TypeScript)
+backend/           # Node.js API server
+docs/              # Comprehensive guides
+  ├── ARCHITECTURE.md    # System design & flows
+  └── GETTING_STARTED.md # Setup & development
 ```
 
----
+## Getting Started
 
-## 3️ Install Dependencies
+For a complete setup guide, see **[GETTING_STARTED.md](docs/GETTING_STARTED.md)**.
+
+### Quick Start (2 terminals)
+
+**Terminal 1 — Frontend:**
 
 ```bash
+cd frontend
 npm install
-```
-
----
-
-## 4️ Run Development Server
-
-```bash
 npm run dev
 ```
 
----
+Open `http://localhost:5173`
 
-## 5️ Open Browser
+**Terminal 2 — Backend:**
 
 ```bash
-http://localhost:5173
+cd backend
+npm install
+npm run dev
 ```
 
----
+API runs on port 5000 (or your configured port)
 
-#  Main Modules
+## Contributing
 
-##  Dashboard
+1. Create a feature branch: `git checkout -b feature/my-feature`
+2. Make your changes and commit: `git commit -m "feat: add awesome feature"`
+3. Push and open a PR: `git push origin feature/my-feature`
 
-Central hub for managing all travel-related activities.
+See [FRONTEND.md](docs/FRONTEND.md) for coding patterns and structure.
 
-##  My Trips
+## Need Help?
 
-Users can:
+- **How do I set up the project?** → See [Getting Started](#-getting-started)
+- **Where's the code organized?** → See [frontend.md](docs/frontend.md)
+- **What are the backend services?** → See [backend.md](docs/backend.md)
+- **What's the API structure?** → See [API.md](docs/API.md)
+- **How does data flow?** → See [architecture.md](docs/architecture.md)
 
-* Add trips
-* Edit trips
-* Delete trips
-* Track upcoming and completed journeys
+## License
 
-##  City Search
+[Add your license here]
 
-Users can:
-
-* Discover destinations
-* Compare budgets
-* Search Indian cities
-* Add destinations to trips
-
-##  Budget Planner
-
-Users can:
-
-* Monitor travel expenses
-* Compare spending vs budget
-* Track category-wise spending
-
----
-
-# 🇮🇳 Indian Currency Support
-
-The project uses Indian Rupee formatting throughout the application.
-
-Example:
-
-```ts
-₹25,000
-₹1,20,000
-₹2,50,000
-```
-
-Currency formatting is handled using:
-
-```ts
-amount.toLocaleString('en-IN')
-```
-
----
-
-#  Future Improvements
-
-* Authentication system
-* AI-based itinerary generator
-* Hotel booking integration
-* Weather API integration
-* Flight price prediction
-* Travel chat assistant
-* Real-time collaboration
-* Map integration
-* Expense analytics dashboard
-
----
-
-# Learning Outcomes
-
-This project demonstrates:
-
-* React component architecture
-* TypeScript interfaces
-* CRUD operations
-* State management
-* Dynamic filtering
-* Responsive UI design
-* Modal implementation
-* Form handling
-* Animation integration
-* Reusable components
-
----
-
-
-#  License
-
-This project is created for educational and development purposes.
-
----
-
-#  Traveloop
-
-"Plan smarter. Travel better. Explore endlessly."
