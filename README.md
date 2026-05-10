@@ -1,3 +1,46 @@
+# OdooxKAHE
+
+A concise project documentation with flowcharts and links to detailed docs.
+
+## Quick Links
+- [Overview](docs/overview.md)
+- [Backend](docs/backend.md)
+- [Frontend](docs/frontend.md)
+- [Development & Run](docs/development.md)
+
+## Architecture Flow
+```mermaid
+flowchart TD
+  A[User] -->|browser| B(Frontend - Vite + React + TypeScript)
+  B -->|API calls| C(Backend - Node/Express)
+  C --> D[(Database / External APIs)]
+  B --> E[Static Assets]
+  style B fill:#f9f,stroke:#333,stroke-width:1px
+```
+
+## Feature Flow — Trips
+```mermaid
+flowchart LR
+  Start[Start] --> Search[Search Activities/Cities]
+  Search --> Select[Select Activity]
+  Select --> Add[Add To Trip]
+  Add --> Itinerary[Itinerary Page]
+  Itinerary --> Save[Save Trip]
+  Save --> End[End]
+```
+
+## Dev Workflow
+```mermaid
+flowchart TD
+  Code[Code] --> Build[Build (Vite / Node)]
+  Build --> Test[Run Tests]
+  Test --> Lint[ESLint / Typecheck]
+  Lint --> Deploy[Deploy]
+```
+
+---
+
+See the linked docs for detailed explanations, folder maps, and developer setup steps.
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
