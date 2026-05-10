@@ -19,7 +19,7 @@ OdooxKAHE is a full-stack travel planning platform with:
 
 ```mermaid
 graph TB
-  Browser["🌐 Browser"]
+  Browser["Browser"]
   Frontend["Frontend Layer\n(React + Vite + TS)"]
   API["API Gateway"]
   Backend["Backend Services\n(Node.js + Express)"]
@@ -42,25 +42,25 @@ graph TB
 ### Why Vite + React?
 
 **Vite:**
-- ⚡ Near-instant dev server startup
-- 🔥 Hot Module Replacement (HMR) for instant feedback
-- 📦 Smaller production bundles
-- ✨ Native ES modules in dev
+- Near-instant dev server startup
+- Hot Module Replacement (HMR) for instant feedback
+- Smaller production bundles
+- Native ES modules in dev
 
 **React + TypeScript:**
-- 💪 Strong type safety
-- 🧩 Component-based architecture
-- 📚 Massive ecosystem
-- ♻️ Reusable UI logic with hooks
+- Strong type safety
+- Component-based architecture
+- Massive ecosystem
+- Reusable UI logic with hooks
 
 ### Why React Query (QueryProvider)?
 
 **Instead of Redux/Zustand:**
-- ✅ Automatic caching and refetching
-- ✅ Built-in optimistic UI support
-- ✅ Handles stale data automatically
-- ✅ Request deduplication
-- ✅ Less boilerplate
+- Automatic caching and refetching
+- Built-in optimistic UI support
+- Handles stale data automatically
+- Request deduplication
+- Less boilerplate
 
 **Server state vs. UI state:**
 - React Query manages server data (API responses)
@@ -69,11 +69,11 @@ graph TB
 
 ### Why Node.js + Express Backend?
 
-- ✅ JavaScript/TypeScript across full stack
-- ✅ Fast REST API development
-- ✅ Rich middleware ecosystem
-- ✅ Async/await support
-- ✅ Easy authentication (JWT, OAuth)
+- JavaScript/TypeScript across full stack
+- Fast REST API development
+- Rich middleware ecosystem
+- Async/await support
+- Easy authentication (JWT, OAuth)
 
 ---
 

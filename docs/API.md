@@ -4,7 +4,7 @@ This document outlines all backend API endpoints, request/response formats, and 
 
 ---
 
-## Quick Note ⚠️
+## Quick Note
 
 This is a **template** for API documentation. Please fill in your actual endpoints, parameters, and response structures.
 

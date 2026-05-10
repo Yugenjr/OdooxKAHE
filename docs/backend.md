@@ -4,7 +4,7 @@ This document outlines the backend structure, services, controllers, database sc
 
 ---
 
-## Quick Note ⚠️
+## Quick Note
 
 The backend code is not included in the workspace provided. This document is a **template** for documenting your backend. Please fill in the actual implementation details.
 

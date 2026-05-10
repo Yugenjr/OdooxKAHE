@@ -2,7 +2,7 @@
 
 Welcome to OdooxKAHE — a modern travel planning web application focused on discovery, trip creation, and sharable itineraries.
 
-## 📚 Documentation
+## Documentation
 
 Comprehensive documentation organized into 5 sections:
 
@@ -11,8 +11,8 @@ Comprehensive documentation organized into 5 sections:
 | **[README.md](README.md)** | Project overview, features, quick start |
 | **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** | System design, tech stack, high-level architecture |
 | **[FRONTEND.md](docs/FRONTEND.md)** | React structure, pages, components, flows |
-| **[BACKEND.md](docs/BACKEND.md)** | Services, controllers, database schema, auth ⚠️ *template* |
-| **[API.md](docs/API.md)** | REST endpoints, requests/responses, auth ⚠️ *template* |
+| **[BACKEND.md](docs/BACKEND.md)** | Services, controllers, database schema, auth *template* |
+| **[API.md](docs/API.md)** | REST endpoints, requests/responses, auth *template* |
 
 **New to the project?** Start with:
 1. Read [ARCHITECTURE.md](docs/ARCHITECTURE.md) for high-level overview
@@ -108,7 +108,7 @@ npm run dev
 
 API runs on port 5000 (or your configured port)
 
-## 🤝 Contributing
+## Contributing
 
 1. Create a feature branch: `git checkout -b feature/my-feature`
 2. Make your changes and commit: `git commit -m "feat: add awesome feature"`
@@ -116,7 +116,7 @@ API runs on port 5000 (or your configured port)
 
 See [FRONTEND.md](docs/FRONTEND.md) for coding patterns and structure.
 
-## ❓ Need Help?
+## Need Help?
 
 - **How do I set up the project?** → See [Getting Started](#-getting-started)
 - **Where's the code organized?** → See [FRONTEND.md](docs/FRONTEND.md)
@@ -124,7 +124,7 @@ See [FRONTEND.md](docs/FRONTEND.md) for coding patterns and structure.
 - **What's the API structure?** → See [API.md](docs/API.md)
 - **How does data flow?** → See [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
-## 📄 License
+## License
 
 [Add your license here]
 
