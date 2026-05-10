@@ -9,18 +9,6 @@ import { MyTripsPage } from '@/modules/trips/pages/MyTripsPage'
 import { CreateTripPage } from '@/modules/trips/pages/CreateTripPage'
 import LandingPage from '@/landing/LandingPage'
 
-// Auth routes
-const authRoutes: RouteObject[] = [
-  {
-    path: 'login',
-    element: <LoginPage />,
-  },
-  {
-    path: 'signup',
-    element: <SignupPage />,
-  },
-]
-
 // Main app routes
 const appRoutes: RouteObject[] = [
   {
@@ -49,9 +37,24 @@ const routes: RouteObject[] = [
     element: <LandingPage />,
   },
   {
-    path: '/auth',
+    path: '/login',
     element: <AuthLayout />,
-    children: authRoutes,
+    children: [
+      {
+        index: true,
+        element: <LoginPage />,
+      },
+    ],
+  },
+  {
+    path: '/signup',
+    element: <AuthLayout />,
+    children: [
+      {
+        index: true,
+        element: <SignupPage />,
+      },
+    ],
   },
   {
     path: '/app',
