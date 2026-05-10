@@ -2,28 +2,42 @@
 
 Welcome to OdooxKAHE — a modern travel planning web application focused on discovery, trip creation, and sharable itineraries.
 
-Quick links
+## 📚 Documentation
 
-- [Overview](docs/overview.md)
-- [Architecture](docs/architecture.md)
-- [Backend](docs/backend.md)
-- [Frontend](docs/frontend.md)
-- [Pages & Flows](docs/pages-flow.md)
-- [Development & Run](docs/development.md)
+Comprehensive documentation organized into 5 sections:
 
-Purpose
+| File | Purpose |
+|------|---------|
+| **[README.md](README.md)** | Project overview, features, quick start |
+| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** | System design, tech stack, high-level architecture |
+| **[FRONTEND.md](docs/FRONTEND.md)** | React structure, pages, components, flows |
+| **[BACKEND.md](docs/BACKEND.md)** | Services, controllers, database schema, auth ⚠️ *template* |
+| **[API.md](docs/API.md)** | REST endpoints, requests/responses, auth ⚠️ *template* |
 
- - Help users discover activities and build day-by-day itineraries.
- - Provide a responsive, fast UI (Vite + React + TypeScript) with a lightweight Node backend.
+**New to the project?** Start with:
+1. Read [ARCHITECTURE.md](docs/ARCHITECTURE.md) for high-level overview
+2. Follow [Getting Started](#-getting-started) to set up locally
+3. Explore [FRONTEND.md](docs/FRONTEND.md) to understand the UI layer
 
-High-level architecture
+**Working on the backend?** Fill in [BACKEND.md](docs/BACKEND.md) and [API.md](docs/API.md) with your actual implementation
+
+## About the Project
+
+OdooxKAHE helps users discover activities, build multi-day itineraries, and share trips with friends. The platform combines a responsive React frontend with a Node.js backend to provide a seamless travel planning experience.
+
+**Built with:**
+- Frontend: Vite + React + TypeScript
+- Backend: Node.js (Express)
+- State Management: React Query / QueryProvider
+
+## High-Level Architecture
 
 ```mermaid
 flowchart TD
   subgraph Frontend
-    F1[Landing / Search]
+    F1[Landing and Search]
     F2[Trip Builder]
-    F3[Profile / Saved Trips]
+    F3[Profile and Saved Trips]
   end
 
   subgraph Backend
@@ -34,51 +48,83 @@ flowchart TD
 
   User --> F1
   F1 --> F2
-  F2 -->|REST / GraphQL| B1
+  F2 -->|REST or GraphQL| B1
   B1 --> B2
   B1 --> B3
-  B3 --> DB[(Database / External APIs)]
+  B3 --> DB[(Database or External APIs)]
 ```
 
-User journey — create a trip
+## User Journey
 
 ```mermaid
 flowchart LR
   A[User] --> B[Search Activities]
-  B --> C[Select & Add to Trip]
+  B --> C[Select and Add to Trip]
   C --> D[Organize Day by Day]
-  D --> E[Save & Share]
+  D --> E[Save and Share]
 ```
 
-Where to start
+## Key Features
 
-- Read the Project Overview for folder maps and feature lists.
-- Open the `frontend` folder to run and explore UI components.
-- Open the `backend` folder to inspect API endpoints and server logic.
+- **Discovery** — Search and browse activities by city, category, or keyword
+- **Trip Builder** — Compose itineraries with drag-and-drop day organization
+- **Optimistic UI** — Changes appear instantly with background sync
+- **Save & Share** — Export as PDF or create shareable links
+- **User Accounts** — Manage trips, packing lists, and shared itineraries
 
-Contributing
+## Project Structure
 
-- Create a branch for your change and open a PR against `master`.
-- Keep PRs focused and add screenshots or short video for UI changes.
+```
+frontend/          # React UI (Vite, TypeScript)
+backend/           # Node.js API server
+docs/              # Comprehensive guides
+  ├── ARCHITECTURE.md    # System design & flows
+  └── GETTING_STARTED.md # Setup & development
+```
 
-Want more detail?
+## Getting Started
 
-Open the linked docs for component-level diagrams, API overviews, and development steps.
-# React + TypeScript + Vite
+For a complete setup guide, see **[GETTING_STARTED.md](docs/GETTING_STARTED.md)**.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Quick Start (2 terminals)
 
-Currently, two official plugins are available:
+**Terminal 1 — Frontend:**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## React Compiler
+Open `http://localhost:5173`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Terminal 2 — Backend:**
 
-## Expanding the ESLint configuration
+```bash
+cd backend
+npm install
+npm run dev
+```
 
-If you want stricter, type-aware linting for TypeScript files, enable the type-checked ESLint configs in your `frontend` ESLint configuration (for example, `recommendedTypeChecked` or `strictTypeChecked`). See `frontend/eslint.config.js` for a ready-made example and recommended parser options.
+API runs on port 5000 (or your configured port)
 
-You can enable React-specific linting by installing `eslint-plugin-react-x` and `eslint-plugin-react-dom`, then enabling their recommended configs in your `frontend` ESLint configuration. See `frontend/eslint.config.js` for a project example and for type-aware linting recommendations.
+## 🤝 Contributing
+
+1. Create a feature branch: `git checkout -b feature/my-feature`
+2. Make your changes and commit: `git commit -m "feat: add awesome feature"`
+3. Push and open a PR: `git push origin feature/my-feature`
+
+See [FRONTEND.md](docs/FRONTEND.md) for coding patterns and structure.
+
+## ❓ Need Help?
+
+- **How do I set up the project?** → See [Getting Started](#-getting-started)
+- **Where's the code organized?** → See [FRONTEND.md](docs/FRONTEND.md)
+- **What are the backend services?** → See [BACKEND.md](docs/BACKEND.md)
+- **What's the API structure?** → See [API.md](docs/API.md)
+- **How does data flow?** → See [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+
+## 📄 License
+
+[Add your license here]
+
